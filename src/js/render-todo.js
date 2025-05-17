@@ -15,4 +15,11 @@ const renderTodo = (todo) => {
     todoList.appendChild(newTodoElement);
 }
 
-export { renderTodo };
+const renderTodoList = (listToRender) => {
+    todoList.innerHTML = '';
+    listToRender.forEach((todo) => {
+        renderTodo(todo);
+    });
+};
+
+export { renderTodo, renderTodoList };
