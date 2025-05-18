@@ -7,7 +7,7 @@ const renderTodo = (todo) => {
     const newTodoTitle = newTodoElement.querySelector('.todo-title');
     newTodoTitle.textContent = todo.title;
 
-    if (todo.completeStatus) {
+    if (todo.isCompleted) {
         const newTodoStatus = newTodoElement.querySelector('.todo-status');
         newTodoStatus.setAttribute('checked', '');
     }

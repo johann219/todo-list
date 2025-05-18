@@ -1,7 +1,7 @@
-const updateStorage = (itemName, itemData) => {
+const updateLocalStorage = (itemName, itemData) => {
     localStorage.setItem(itemName, itemData);
 };
 
-const getStorage = (itemName) => localStorage.getItem(itemName);
+const getLocalStorage = (itemName) => localStorage.getItem(itemName);
 
-export { updateStorage, getStorage };
+export { updateLocalStorage, getLocalStorage };

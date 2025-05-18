@@ -1,5 +1,5 @@
-import TodoPoint from './todo-point.js';
+import Todo from './todo.js';
 
-const createTodo = (title, status) => new TodoPoint(title, status);
+const createTodo = (title, status) => new Todo(title, status);
 
 export  { createTodo };

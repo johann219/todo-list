@@ -1,16 +1,28 @@
-import { updateStorage, getStorage } from './local-storage.js';
+import { updateLocalStorage, getLocalStorage } from './local-storage.js';
+import Todo from './todo.js';
 
 const STORAGE_NAME = 'todoStorage';
 
-const getTodoStorage = () => {
-    const storedValue = getStorage(STORAGE_NAME);
+
+const getLocalTodoStorage = () => {
+    const storedValue = getLocalStorage(STORAGE_NAME);
     return storedValue ? JSON.parse(storedValue) : [];
 }
 
-const saveTodoToStorage = (todo) => {
-    const todoStorage = getTodoStorage();
-    todoStorage.push(todo);
-    updateStorage(STORAGE_NAME, JSON.stringify(todoStorage));
+const saveTodoToLocalStorage = (todo) => {
+    const todoLocalStorage = getLocalTodoStorage();
+    todoLocalStorage.push(todo);
+    updateLocalStorage(STORAGE_NAME, JSON.stringify(todoLocalStorage));
 };
 
-export { saveTodoToStorage, getTodoStorage };
+const getLiveTodoStorage = () => {
+    const plainTodoStorage = getLocalTodoStorage();
+    
+    const liveTodoStorage = plainTodoStorage.map((plainTodo) => {
+        return new Todo(plainTodo.title, plainTodo.isCompleted, plainTodo.id);
+    });
+
+    return liveTodoStorage;
+};
+
+export { saveTodoToLocalStorage, getLiveTodoStorage };
