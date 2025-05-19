@@ -3,13 +3,13 @@ import '../css/styles.css';
 import { createTodo } from './create-todo.js';
 import { renderTodo, renderTodoList } from './render-todo.js';
 import { inputServicePrompt } from './input-service.js';
-import { saveTodoToLocalStorage, getLiveTodoStorage } from './todo-storage.js';
+import { TodoStorage } from './todo-storage.js';
 
 const addTodoBtn = document.querySelector('.add-todo');
 
 document.addEventListener('DOMContentLoaded', () => {
-    const loadedTodoList = getLiveTodoStorage();
-    renderTodoList(loadedTodoList);
+    TodoStorage.initStorage();
+    renderTodoList(TodoStorage.getStorage());
 });
 
 addTodoBtn.addEventListener('click', () => {
@@ -18,8 +18,8 @@ addTodoBtn.addEventListener('click', () => {
     
     const newTodo = createTodo(title, status);
 
+    TodoStorage.addNewTodo(newTodo);
     renderTodo(newTodo);
-    saveTodoToLocalStorage(newTodo);
 });
 
 /* temporary for debugging and managing localStorage */

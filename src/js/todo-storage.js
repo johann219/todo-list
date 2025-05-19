@@ -3,26 +3,40 @@ import Todo from './todo.js';
 
 const STORAGE_NAME = 'todoStorage';
 
+const TodoStorage = (() => {
+    let storage = [];
 
-const getLocalTodoStorage = () => {
-    const storedValue = getLocalStorage(STORAGE_NAME);
-    return storedValue ? JSON.parse(storedValue) : [];
-}
+    const getPlainStorage = () => {
+        const plainStorage = getLocalStorage(STORAGE_NAME);
+        return plainStorage ? JSON.parse(plainStorage) : [];
+    }    
 
-const saveTodoToLocalStorage = (todo) => {
-    const todoLocalStorage = getLocalTodoStorage();
-    todoLocalStorage.push(todo);
-    updateLocalStorage(STORAGE_NAME, JSON.stringify(todoLocalStorage));
-};
+    const getStorage = () => storage;
 
-const getLiveTodoStorage = () => {
-    const plainTodoStorage = getLocalTodoStorage();
+    const rehydrateLocalStorage = () => {
+        const plainStorage = getPlainStorage();
+        
+        const rehydratedStorage = plainStorage.map((plainTodo) => {
+            return new Todo(plainTodo.title, plainTodo.isCompleted, plainTodo.id);
+        });
     
-    const liveTodoStorage = plainTodoStorage.map((plainTodo) => {
-        return new Todo(plainTodo.title, plainTodo.isCompleted, plainTodo.id);
-    });
+        return rehydratedStorage;
+    };
 
-    return liveTodoStorage;
-};
+    const initStorage = () => {
+        storage = rehydrateLocalStorage();
+    };
 
-export { saveTodoToLocalStorage, getLiveTodoStorage };
+    const saveToLocalStorage = () => {
+        updateLocalStorage(STORAGE_NAME, JSON.stringify(storage));
+    };
+
+    const addNewTodo = (todo) => {
+        storage.push(todo);
+        saveToLocalStorage();
+    };
+
+    return { initStorage, getStorage, addNewTodo };
+})();
+
+export { TodoStorage };
