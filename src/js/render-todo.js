@@ -12,6 +12,8 @@ const renderTodo = (todo) => {
         newTodoStatus.setAttribute('checked', '');
     }
 
+    newTodoElement.querySelector('.todo').id = todo.id;
+
     todoList.appendChild(newTodoElement);
 }
 

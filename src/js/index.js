@@ -2,7 +2,7 @@ import '../css/styles.css';
 
 import { createTodo } from './create-todo.js';
 import { renderTodo, renderTodoList } from './render-todo.js';
-import { getTitle, getStatus} from './get-user-data.js';
+import { inputServicePrompt } from './input-service.js';
 import { saveTodoToLocalStorage, getLiveTodoStorage } from './todo-storage.js';
 
 const addTodoBtn = document.querySelector('.add-todo');
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 addTodoBtn.addEventListener('click', () => {
-    const title = getTitle();
-    const status = getStatus();
+    const title = inputServicePrompt.getTitle();
+    const status = inputServicePrompt.getStatus();
     
     const newTodo = createTodo(title, status);
 
@@ -22,13 +22,7 @@ addTodoBtn.addEventListener('click', () => {
     saveTodoToLocalStorage(newTodo);
 });
 
-// import { updateStorage, getStorage } from './local-storage.js';
-
-// const todoList = document.querySelector('.todo-list');
-
-// const onTodoCheckClick = (event) => {
-
-// };
+/* temporary for debugging and managing localStorage */
 
 const clearBtn = document.querySelector('.clear');
 
@@ -41,3 +35,5 @@ const logBtn = document.querySelector('.log');
 logBtn.addEventListener('click', () => {
     console.log(localStorage.getItem('todoStorage'))
 });
+
+/* temporary for debugging and managing localStorage */

@@ -19,6 +19,14 @@ export default class Todo {
         return this._id;
     }
 
+    set title(todoTitle) {
+        this._title = todoTitle;
+    }
+
+    set isCompleted(todoIsCompleted) {
+        this._isCompleted = todoIsCompleted;
+    }
+    
     toJSON () {
         return {
             title: this._title,
