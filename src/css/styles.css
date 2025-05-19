@@ -40,8 +40,12 @@ main {
   justify-content: center;
 }
 
-.todo-point {
+.todo-item {
   border: 1px solid black;
   padding: 10px 20px;
   margin: 20px;
+}
+
+.todo-completed {
+  text-decoration: line-through red;
 }
