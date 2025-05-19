@@ -23,10 +23,10 @@ export default class Todo {
         this._title = todoTitle;
     }
 
-    set isCompleted(todoIsCompleted) {
-        this._isCompleted = todoIsCompleted;
+    toggleCompletionStatus() {
+        this._isCompleted = !this._isCompleted;
     }
-    
+
     toJSON () {
         return {
             title: this._title,

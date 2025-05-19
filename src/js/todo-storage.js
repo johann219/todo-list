@@ -13,6 +13,8 @@ const TodoStorage = (() => {
 
     const getStorage = () => storage;
 
+    const getTodoById = (todoToFindId) => storage.find((todo) => todo.id === todoToFindId);
+
     const rehydrateLocalStorage = () => {
         const plainStorage = getPlainStorage();
         
@@ -36,7 +38,19 @@ const TodoStorage = (() => {
         saveToLocalStorage();
     };
 
-    return { initStorage, getStorage, addNewTodo };
+    const toggleTodoCompletion = (todoToChangeId) => {
+        const todoToChange = storage.find((todo) => todo.id === todoToChangeId);
+        
+        if (todoToChange) {
+            todoToChange.toggleCompletionStatus();
+            saveToLocalStorage();
+            return todoToChange;
+        }
+
+        return null
+    };
+
+    return { initStorage, getStorage, getTodoById, addNewTodo, toggleTodoCompletion };
 })();
 
 export { TodoStorage };
