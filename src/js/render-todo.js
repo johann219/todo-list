@@ -1,4 +1,4 @@
-const todoTemplate = document.querySelector('.todo-point-template');
+const todoTemplate = document.querySelector('.todo-item-template');
 const todoList = document.querySelector('.todo-list');
 
 const renderTodo = (todo) => {
