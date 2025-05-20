@@ -1,13 +1,13 @@
-/*  
-    right now this module is redundant
-    but cn prove useful once we need to 
-    add some complexity to creating todos
-    and are not comfortable with putting 
-    that logic into the Todo class
-*/
-
 import Todo from './todo.js';
+import { InputServicePrompt } from './input-service.js';
 
-const createTodo = (title, status) => new Todo(title, status);
+const createTodo = () => {
+    const title = InputServicePrompt.getTitle();
+    const status = InputServicePrompt.getStatus();
+    // const description = InputServicePrompt.getDescription();
+    // const dueDate = InputServicePrompt.getDueDate();
+
+    return new Todo(title, status/*, description, dueDate*/);
+};
 
 export  { createTodo };

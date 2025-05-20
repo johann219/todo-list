@@ -1,4 +1,4 @@
-const inputServicePrompt = (() => {
+const InputServicePrompt = (() => {
     const getTitle = () => {
         const title = prompt('Enter title:'); // temporary solution for convenience, no need for validation at this point
         return title;
@@ -13,8 +13,8 @@ const inputServicePrompt = (() => {
     return { getTitle, getStatus };
 })();
 
-const inputServiceForm = (() => {
+const InputServiceForm = (() => {
     // get form data...
 })();
 
-export { inputServicePrompt };
+export { InputServicePrompt };

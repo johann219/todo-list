@@ -1,12 +1,9 @@
 import '../css/styles.css';
 
-import { TodoView } from './todo-view.js';
-import { TodoStorage } from './todo-storage.js';
+import { TodoControl } from './todo-control.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    TodoStorage.initStorage();
-    TodoView.initView();
-    TodoView.renderTodoList(TodoStorage.getStorage());
+    TodoControl.initControl();
 });
 
 /* temporary for debugging and managing localStorage */
