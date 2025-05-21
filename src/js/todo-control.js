@@ -2,54 +2,45 @@ import { createTodo } from './create-todo.js';
 import { TodoStorage } from './todo-storage.js';
 import { TodoView } from './todo-view.js';
 
-const TODO_LIST_ELEMENT_CLASS = 'todo-list';
-const TODO_ITEM_ELEMENT_CLASS = 'todo-item';
-const ADD_TODO_BUTTON_CLASS = 'add-todo';
+const TODO_LIST_ELEMENT_SELECTOR = '.todo-list';
+const TODO_ITEM_ELEMENT_SELECTOR = '.todo-item';
+const ADD_TODO_BUTTON_SELECTOR = '.add-todo';
+const TODO_ITEM_TEMPLATE_SELECTOR = '.todo-item-template';
 
-const TodoControl = (() => {
-    const todoList = document.querySelector(`.${TODO_LIST_ELEMENT_CLASS}`);
-    const addTodoBtn = document.querySelector(`.${ADD_TODO_BUTTON_CLASS}`);
+const todoListElement = document.querySelector(TODO_LIST_ELEMENT_SELECTOR);
+const addTodoBtnElement = document.querySelector(ADD_TODO_BUTTON_SELECTOR);
+const todoTemplateElement = document.querySelector(TODO_ITEM_TEMPLATE_SELECTOR);
 
-    const handleAddBtnClick = () => {
-        const newTodo = createTodo();
+const handleAddBtnClick = () => {
+    const newTodo = createTodo();
 
-        TodoStorage.addNewTodo(newTodo);
-        TodoView.renderTodo(newTodo);
-    };
+    TodoStorage.addNewTodo(newTodo);
+    TodoView.renderTodo(newTodo);
+};
 
-    const handleCheckboxChange = (checkbox) => {
-        const updatedTodoElement = checkbox.closest(`.${TODO_ITEM_ELEMENT_CLASS}`);
+const handleCheckboxChange = (checkbox) => {
+    const updatedTodoElement = checkbox.closest(TODO_ITEM_ELEMENT_SELECTOR);
     
-        if (!updatedTodoElement) {
-            throw new Error('Checkbox is not inside todo element');
-        }
+    const updatedTodoObject = TodoStorage.toggleTodoCompletion(updatedTodoElement.id);
     
-        const updatedTodoObject = TodoStorage.toggleTodoCompletion(updatedTodoElement.id);
-    
-        if (updatedTodoObject) {
-            updatedTodoObject.isCompleted ?
-            TodoView.completionEnable(updatedTodoElement) : 
-            TodoView.completionDisable(updatedTodoElement);
-        } else {
-            throw new Error('Object not found');
-        }
-    };
+    TodoView.toggleCompletionView(updatedTodoElement, updatedTodoObject.isCompleted);
+};
         
-    const initControl = () => {
-        todoList.addEventListener('change', (event) => {
-            if (event.target.getAttribute('type') === 'checkbox') {
-                handleCheckboxChange(event.target);
-            }
-        });
+const initControl = () => {
+    TodoStorage.initStorage();
+    TodoView.initView(todoTemplateElement, todoListElement);
 
-        addTodoBtn.addEventListener('click', handleAddBtnClick);
+    todoListElement.addEventListener('change', (event) => {
+        if (event.target.getAttribute('type') === 'checkbox') {
+            handleCheckboxChange(event.target);
+        }
+    });
 
-        TodoStorage.initStorage();
+    addTodoBtnElement.addEventListener('click', handleAddBtnClick);
 
-        TodoView.renderTodoList(TodoStorage.getStorage());
-    };
+    TodoView.renderTodoList(TodoStorage.getStorage());
+};
 
-    return { initControl };
-})();
-
-export { TodoControl };
+export const TodoControl = {
+    initControl
+};

@@ -1,48 +1,49 @@
-const TODO_LIST_ELEMENT_CLASS = 'todo-list';
-const TODO_ITEM_ELEMENT_CLASS = 'todo-item';
-const TODO_ITEM_TEMPLATE_CLASS = 'todo-item-template';
-const TODO_ITEM_TITLE_CLASS = 'todo-title';
-const TODO_ITEM_STATUS_CLASS = 'todo-status';
+const TODO_ITEM_ELEMENT_SELECTOR = '.todo-item';
+const TODO_ITEM_TITLE_SELECTOR = '.todo-title';
+const TODO_ITEM_STATUS_SELECTOR = '.todo-status';
 const TODO_ITEM_COMPLETION_CLASS = 'todo-completed';
 
-const TodoView = (() => {
-    const todoTemplate = document.querySelector(`.${TODO_ITEM_TEMPLATE_CLASS}`);
-    const todoList = document.querySelector(`.${TODO_LIST_ELEMENT_CLASS}`);
+let todoTemplateElement = null;
+let todoListElement = null;
 
-    const completionEnable = (todoElement) => {
-        todoElement.classList.add(TODO_ITEM_COMPLETION_CLASS);
-    };
+const initView = (templateElement, listElement) => {
+    todoTemplateElement = templateElement;
+    todoListElement = listElement;
+};
 
-    const completionDisable = (todoElement) => {
-        todoElement.classList.remove(TODO_ITEM_COMPLETION_CLASS);
-    };
+const toggleCompletionView = (todoElement, isTodoCompleted) => {
+    isTodoCompleted ? 
+    todoElement.classList.add(TODO_ITEM_COMPLETION_CLASS) : 
+    todoElement.classList.remove(TODO_ITEM_COMPLETION_CLASS);
+};
 
-    const renderTodo = (todo) => {
-        const newTodoFragment= todoTemplate.content.cloneNode(true);
+const renderTodo = (todo) => {
+    const newTodoFragment= todoTemplateElement.content.cloneNode(true);
         
-        const newTodoTitle = newTodoFragment.querySelector(`.${TODO_ITEM_TITLE_CLASS}`);
-        newTodoTitle.textContent = todo.title;
+    const newTodoTitle = newTodoFragment.querySelector(TODO_ITEM_TITLE_SELECTOR);
+    newTodoTitle.textContent = todo.title;
 
-        if (todo.isCompleted) {
-            const newTodoStatus = newTodoFragment.querySelector(`.${TODO_ITEM_STATUS_CLASS}`);
-            newTodoStatus.setAttribute('checked', '');
-            completionEnable(newTodoFragment.querySelector(`.${TODO_ITEM_ELEMENT_CLASS}`));
-        }
-
-        newTodoFragment.querySelector(`.${TODO_ITEM_ELEMENT_CLASS}`).setAttribute('id', `${todo.id}`);
-
-        todoList.appendChild(newTodoFragment);
+    if (todo.isCompleted) {
+        const newTodoStatus = newTodoFragment.querySelector(TODO_ITEM_STATUS_SELECTOR);
+        newTodoStatus.setAttribute('checked', '');
+        toggleCompletionView(newTodoFragment.querySelector(TODO_ITEM_ELEMENT_SELECTOR), true);
     }
 
-    const renderTodoList = (listToRender) => {
-        todoList.innerHTML = '';
-        listToRender.forEach((todo) => {
-            renderTodo(todo);
-        });
-    };
+    newTodoFragment.querySelector(TODO_ITEM_ELEMENT_SELECTOR).setAttribute('id', `${todo.id}`);
 
-    return { renderTodo, renderTodoList, completionEnable, completionDisable };
-})();
+    todoListElement.appendChild(newTodoFragment);
+}
 
-export { TodoView };
+const renderTodoList = (listToRender) => {
+    todoListElement.innerHTML = '';
+    listToRender.forEach((todo) => {
+    renderTodo(todo);
+    });
+};
 
+export const TodoView = { 
+    initView,
+    renderTodo, 
+    renderTodoList, 
+    toggleCompletionView 
+};
