@@ -42,9 +42,14 @@ const renderTodoList = (listToRender) => {
     });
 };
 
+const removeTodo = (todoToRemove) => {
+    todoToRemove.remove();
+};
+
 export const TodoView = { 
     initView,
     renderTodo, 
     renderTodoList, 
-    toggleCompletionView 
+    toggleCompletionView,
+    removeTodo,
 };

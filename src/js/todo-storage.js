@@ -38,7 +38,7 @@ const addNewTodo = (todo) => {
 };
 
 const toggleTodoCompletion = (todoToChangeId) => {
-    const todoToChange = storage.find((todo) => todo.id === todoToChangeId);
+    const todoToChange = getTodoById(todoToChangeId);
         
     if (todoToChange) {
         todoToChange.toggleCompletionStatus();
@@ -49,10 +49,17 @@ const toggleTodoCompletion = (todoToChangeId) => {
     return null
 };
 
+const deleteTodo = (todoToDeleteId) => {
+    const todoToDelete = getTodoById(todoToDeleteId);
+
+    storage.splice(storage.indexOf(todoToDelete), 1);
+    saveToLocalStorage();
+};
+
 export const TodoStorage = { 
     initStorage, 
-    getStorage, 
-    getTodoById, 
+    getStorage,
     addNewTodo, 
-    toggleTodoCompletion
+    toggleTodoCompletion,
+    deleteTodo,
 };
