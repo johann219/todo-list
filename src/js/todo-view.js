@@ -19,17 +19,18 @@ const toggleCompletionView = (todoElement, isTodoCompleted) => {
 
 const renderTodo = (todo) => {
     const newTodoFragment= todoTemplateElement.content.cloneNode(true);
-        
-    const newTodoTitle = newTodoFragment.querySelector(TODO_ITEM_TITLE_SELECTOR);
-    newTodoTitle.textContent = todo.title;
+    const newTodoItemElement = newTodoFragment.querySelector(TODO_ITEM_ELEMENT_SELECTOR);
+
+    const newTodoTitleElement = newTodoItemElement.querySelector(TODO_ITEM_TITLE_SELECTOR);
+    newTodoTitleElement.textContent = todo.title;
 
     if (todo.isCompleted) {
-        const newTodoStatus = newTodoFragment.querySelector(TODO_ITEM_STATUS_SELECTOR);
-        newTodoStatus.setAttribute('checked', '');
-        toggleCompletionView(newTodoFragment.querySelector(TODO_ITEM_ELEMENT_SELECTOR), true);
+        const newTodoStatusElement = newTodoItemElement.querySelector(TODO_ITEM_STATUS_SELECTOR);
+        newTodoStatusElement.setAttribute('checked', '');
+        toggleCompletionView(newTodoItemElement, true);
     }
 
-    newTodoFragment.querySelector(TODO_ITEM_ELEMENT_SELECTOR).setAttribute('id', `${todo.id}`);
+    newTodoItemElement.setAttribute('id', `${todo.id}`);
 
     todoListElement.appendChild(newTodoFragment);
 }

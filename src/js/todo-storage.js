@@ -3,54 +3,56 @@ import Todo from './todo.js';
 
 const STORAGE_NAME = 'todoStorage';
 
-const TodoStorage = (() => {
-    let storage = [];
+let storage = [];
 
-    const getPlainStorage = () => {
-        const plainStorage = getLocalStorage(STORAGE_NAME);
-        return plainStorage ? JSON.parse(plainStorage) : [];
-    }    
+const getPlainStorage = () => {
+    const plainStorage = getLocalStorage(STORAGE_NAME);
+    return plainStorage ? JSON.parse(plainStorage) : [];
+}    
 
-    const getStorage = () => storage;
+const getStorage = () => [...storage];
 
-    const getTodoById = (todoToFindId) => storage.find((todo) => todo.id === todoToFindId);
+const getTodoById = (todoToFindId) => storage.find((todo) => todo.id === todoToFindId);
 
-    const rehydrateLocalStorage = () => {
-        const plainStorage = getPlainStorage();
+const rehydrateLocalStorage = () => {
+    const plainStorage = getPlainStorage();
         
-        const rehydratedStorage = plainStorage.map((plainTodo) => {
-            return new Todo(plainTodo.title, plainTodo.isCompleted, plainTodo.id);
-        });
+    const rehydratedStorage = plainStorage.map((plainTodo) => {
+        return new Todo(plainTodo.title, plainTodo.isCompleted, plainTodo.id);
+    });
     
-        return rehydratedStorage;
-    };
+    return rehydratedStorage;
+};
 
-    const initStorage = () => {
-        storage = rehydrateLocalStorage();
-    };
+const initStorage = () => {
+    storage = rehydrateLocalStorage();
+};
 
-    const saveToLocalStorage = () => {
-        updateLocalStorage(STORAGE_NAME, JSON.stringify(storage));
-    };
+const saveToLocalStorage = () => {
+    updateLocalStorage(STORAGE_NAME, JSON.stringify(storage));
+};
 
-    const addNewTodo = (todo) => {
-        storage.push(todo);
-        saveToLocalStorage();
-    };
+const addNewTodo = (todo) => {
+    storage.push(todo);
+    saveToLocalStorage();
+};
 
-    const toggleTodoCompletion = (todoToChangeId) => {
-        const todoToChange = storage.find((todo) => todo.id === todoToChangeId);
+const toggleTodoCompletion = (todoToChangeId) => {
+    const todoToChange = storage.find((todo) => todo.id === todoToChangeId);
         
-        if (todoToChange) {
-            todoToChange.toggleCompletionStatus();
-            saveToLocalStorage();
-            return todoToChange;
-        }
+    if (todoToChange) {
+        todoToChange.toggleCompletionStatus();
+        saveToLocalStorage();
+        return todoToChange;
+    }
 
-        return null
-    };
+    return null
+};
 
-    return { initStorage, getStorage, getTodoById, addNewTodo, toggleTodoCompletion };
-})();
-
-export { TodoStorage };
+export const TodoStorage = { 
+    initStorage, 
+    getStorage, 
+    getTodoById, 
+    addNewTodo, 
+    toggleTodoCompletion
+};
