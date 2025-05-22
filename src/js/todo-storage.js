@@ -37,16 +37,25 @@ const addNewTodo = (todo) => {
     saveToLocalStorage();
 };
 
-const toggleTodoCompletion = (todoToChangeId) => {
-    const todoToChange = getTodoById(todoToChangeId);
+const toggleTodoCompletion = (todoToToggleId) => {
+    const todoToToggle = getTodoById(todoToToggleId);
         
-    if (todoToChange) {
-        todoToChange.toggleCompletionStatus();
+    if (todoToToggle) {
+        todoToToggle.toggleCompletionStatus();
         saveToLocalStorage();
-        return todoToChange;
+        return todoToToggle;
     }
 
     return null
+};
+
+const editTodoTitle = (todoToEditId, newTitle) => {
+    const todoToEdit = getTodoById(todoToEditId);
+    console.log(todoToEdit, newTitle);
+    if (todoToEdit) {
+        todoToEdit.title = newTitle;
+        saveToLocalStorage();
+    }
 };
 
 const deleteTodo = (todoToDeleteId) => {
@@ -62,4 +71,5 @@ export const TodoStorage = {
     addNewTodo, 
     toggleTodoCompletion,
     deleteTodo,
+    editTodoTitle,
 };

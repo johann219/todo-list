@@ -8,7 +8,7 @@ const ADD_TODO_BUTTON_SELECTOR = '.add-todo';
 const TODO_ITEM_TEMPLATE_SELECTOR = '.todo-item-template';
 const TODO_ITEM_CHECKBOX_SELECTOR = '.todo-status';
 const TODO_ITEM_DELETE_BTN_SELECTOR = '.todo-delete';
-const TODO_ITEM_EDIT_BTN_SELECTOR = '.todo-edit';
+const TODO_ITEM_TITLE_SELECTOR = '.todo-title';
 
 const todoListElement = document.querySelector(TODO_LIST_ELEMENT_SELECTOR);
 const addTodoBtnElement = document.querySelector(ADD_TODO_BUTTON_SELECTOR);
@@ -23,39 +23,56 @@ const handleAddBtnClick = () => {
 
 const getInteractedElementParent = (interactedElement) => interactedElement.closest(TODO_ITEM_ELEMENT_SELECTOR); 
 
-const handleCheckboxClick = (checkbox) => {
-    const updatedTodoElement = getInteractedElementParent(checkbox);
+const handleCheckboxClick = (checkboxElement) => {
+    const updatedTodoElement = getInteractedElementParent(checkboxElement);
     
     const updatedTodoObject = TodoStorage.toggleTodoCompletion(updatedTodoElement.id);
     
     TodoView.toggleCompletionView(updatedTodoElement, updatedTodoObject.isCompleted);
 };
 
-const handleDeleteBtnClick = (deleteBtn) => {
-    const deletedTodoElement = getInteractedElementParent(deleteBtn);
+const handleDeleteBtnClick = (deleteBtnElement) => {
+    const deletedTodoElement = getInteractedElementParent(deleteBtnElement);
 
     TodoStorage.deleteTodo(deletedTodoElement.id);
 
     TodoView.removeTodo(deletedTodoElement);
 };
 
-const handleEditBtnClick = (editBtn) => {
-    console.log(`Edit ${editBtn}`);
+const handleTitleClick = (titleElement) => {
+    console.log('Edit', titleElement);
+    
+    const editedTodoElement = getInteractedElementParent(titleElement);
+
+    const inputElement = TodoView.replaceElementByInput(titleElement);
+    
+    const handleTitleEditConfirm = (event) => {
+        const newTitle = TodoView.replaceInputByElement(inputElement, titleElement);
+        TodoStorage.editTodoTitle(editedTodoElement.id, newTitle);
+    };
+
+    inputElement.addEventListener('blur', handleTitleEditConfirm);
 };
 
 const delegateTodoListClickEvent = (event) => {
     const clickedElement = event.target;
 
-    if (clickedElement.closest(TODO_ITEM_CHECKBOX_SELECTOR)) {
-        handleCheckboxClick(clickedElement);
+    const checkboxElement = clickedElement.closest(TODO_ITEM_CHECKBOX_SELECTOR);
+    const deleteBtnElement = clickedElement.closest(TODO_ITEM_DELETE_BTN_SELECTOR);
+    const titleElement = clickedElement.closest(TODO_ITEM_TITLE_SELECTOR);
+
+    if (checkboxElement) {
+        handleCheckboxClick(checkboxElement);
     }
 
-    if (clickedElement.closest(TODO_ITEM_DELETE_BTN_SELECTOR)) {
-        handleDeleteBtnClick(clickedElement);
+    if (deleteBtnElement) {
+        handleDeleteBtnClick(deleteBtnElement);
     }
 
-    if (clickedElement.closest(TODO_ITEM_EDIT_BTN_SELECTOR)) {
-        handleEditBtnClick(clickedElement);
+    if (titleElement) {
+        handleTitleClick(titleElement);
+        // need to handle deletion while editing
+        // need to handle reediting while editing
     }
 };
         

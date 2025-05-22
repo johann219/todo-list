@@ -46,10 +46,32 @@ const removeTodo = (todoToRemove) => {
     todoToRemove.remove();
 };
 
+const replaceElementByInput = (elementToEdit) => {
+    const inputElement = document.createElement('input');
+    inputElement.setAttribute('type', 'text');
+    inputElement.value = elementToEdit.textContent;
+
+    elementToEdit.parentNode.replaceChild(inputElement, elementToEdit);
+
+    inputElement.focus();
+
+    return inputElement;
+};
+
+const replaceInputByElement = (inputElement, replacerElement) => {
+    replacerElement.textContent = inputElement.value;
+
+    inputElement.parentNode.replaceChild(replacerElement, inputElement);
+
+    return inputElement.value;
+};
+
 export const TodoView = { 
     initView,
     renderTodo, 
     renderTodoList, 
     toggleCompletionView,
     removeTodo,
+    replaceElementByInput,
+    replaceInputByElement
 };
