@@ -1,3 +1,11 @@
-const createRandomId = () => Date.now().toString(36);
+const createRandomId = () => crypto.randomUUID();
 
-export { createRandomId };
+const isEscKey = (event) => event.key === 'Escape';
+
+const isEnterKey = (event) => event.key === 'Enter';
+
+export const Utils = { 
+    createRandomId,
+    isEnterKey,
+    isEscKey
+};

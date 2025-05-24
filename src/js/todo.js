@@ -1,7 +1,7 @@
-import { createRandomId } from './utils.js';
+import { Utils } from './utils.js';
 
 export default class Todo {
-    constructor(title, isCompleted, id = createRandomId()) {
+    constructor(title, isCompleted, id = Utils.createRandomId()) {
         this._title = title;
         this._isCompleted = isCompleted;
         this._id = id;
