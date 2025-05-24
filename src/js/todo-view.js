@@ -58,8 +58,8 @@ const replaceElementByInput = (elementToEdit) => {
     return inputElement;
 };
 
-const replaceInputByElement = (inputElement, replacerElement) => {
-    replacerElement.textContent = inputElement.value;
+const replaceInputByElement = (inputElement, replacerElement, replacingValue = null) => {
+    replacerElement.textContent = replacingValue ? replacingValue : inputElement.value;
 
     inputElement.parentNode.replaceChild(replacerElement, inputElement);
 

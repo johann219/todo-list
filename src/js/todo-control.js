@@ -1,6 +1,7 @@
 import { createTodo } from './create-todo.js';
 import { TodoStorage } from './todo-storage.js';
 import { TodoView } from './todo-view.js';
+import { TodoEdit } from './todo-edit.js';
 
 const TODO_LIST_ELEMENT_SELECTOR = '.todo-list';
 const TODO_ITEM_ELEMENT_SELECTOR = '.todo-item';
@@ -13,6 +14,10 @@ const TODO_ITEM_TITLE_SELECTOR = '.todo-title';
 const todoListElement = document.querySelector(TODO_LIST_ELEMENT_SELECTOR);
 const addTodoBtnElement = document.querySelector(ADD_TODO_BUTTON_SELECTOR);
 const todoTemplateElement = document.querySelector(TODO_ITEM_TEMPLATE_SELECTOR);
+
+const TODO_PROPERTY_TYPE_TITLE = 'title';
+// const TODO_PROPERTY_TYPE_DESCRIPTION = 'description';
+// const TODO_PROPERTY_TYPE_DUEDATE = 'duedate';
 
 const handleAddBtnClick = () => {
     const newTodo = createTodo();
@@ -40,19 +45,14 @@ const handleDeleteBtnClick = (deleteBtnElement) => {
 };
 
 const handleTitleClick = (titleElement) => {
-    console.log('Edit', titleElement);
-    
-    const editedTodoElement = getInteractedElementParent(titleElement);
+    const parentTodoId = getInteractedElementParent(titleElement).id;
 
-    const inputElement = TodoView.replaceElementByInput(titleElement);
-    
-    const handleTitleEditConfirm = (event) => {
-        const newTitle = TodoView.replaceInputByElement(inputElement, titleElement);
-        TodoStorage.editTodoTitle(editedTodoElement.id, newTitle);
-    };
-
-    inputElement.addEventListener('blur', handleTitleEditConfirm);
+    TodoEdit.initEditMode(titleElement, parentTodoId, TODO_PROPERTY_TYPE_TITLE);
 };
+
+// const handleDescriptionClick = () => {};
+
+// const handleDuedateClick = () => {};
 
 const delegateTodoListClickEvent = (event) => {
     const clickedElement = event.target;
@@ -72,7 +72,6 @@ const delegateTodoListClickEvent = (event) => {
     if (titleElement) {
         handleTitleClick(titleElement);
         // need to handle deletion while editing
-        // need to handle reediting while editing
     }
 };
         

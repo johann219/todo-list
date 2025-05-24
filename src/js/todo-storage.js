@@ -3,6 +3,10 @@ import Todo from './todo.js';
 
 const STORAGE_NAME = 'todoStorage';
 
+const TODO_PROPERTY_TYPE_TITLE = 'title';
+// const TODO_PROPERTY_TYPE_DESCRIPTION = 'description';
+// const TODO_PROPERTY_TYPE_DUEDATE = 'duedate';
+
 let storage = [];
 
 const getPlainStorage = () => {
@@ -49,13 +53,37 @@ const toggleTodoCompletion = (todoToToggleId) => {
     return null
 };
 
-const editTodoTitle = (todoToEditId, newTitle) => {
+const editTodoTitle = (todoToEdit, newTitle) => {
+    todoToEdit.title = newTitle;
+};
+
+// const editTodoDescription = (todoToEdit, newDescription) => {
+//     todoToEdit.description = description;
+// };
+
+// const editTodoDuedate = (todoToEdit, newDuedate) => {
+//     todoToEdit.duedate = newDuedate;
+// };
+
+const editTodoProperty = (todoToEditId, propertyToEditType, newContent) => {
     const todoToEdit = getTodoById(todoToEditId);
-    console.log(todoToEdit, newTitle);
-    if (todoToEdit) {
-        todoToEdit.title = newTitle;
+
+    if(todoToEdit) {
+        switch(propertyToEditType) {
+            case TODO_PROPERTY_TYPE_TITLE:
+                editTodoTitle(todoToEdit, newContent);
+                break;
+            // case TODO_PROPERTY_TYPE_DESCRIPTION:
+            //     editTodoDescription(todoToEdit, newContent);
+            //     break;
+            // case TODO_PROPERTY_TYPE_DUEDATE:
+            //     editTodoDuedate(todoToEdit, newContent);
+            //     break;
+        }
+
         saveToLocalStorage();
     }
+
 };
 
 const deleteTodo = (todoToDeleteId) => {
@@ -71,5 +99,5 @@ export const TodoStorage = {
     addNewTodo, 
     toggleTodoCompletion,
     deleteTodo,
-    editTodoTitle,
+    editTodoProperty,
 };
