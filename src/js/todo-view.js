@@ -1,7 +1,4 @@
-const TODO_ITEM_ELEMENT_SELECTOR = '.todo-item';
-const TODO_ITEM_TITLE_SELECTOR = '.todo-title';
-const TODO_ITEM_STATUS_SELECTOR = '.todo-status';
-const TODO_ITEM_COMPLETION_CLASS = 'todo-completed';
+import { SELECTOR, MARKUP_CLASS } from './const.js';
 
 let todoTemplateElement = null;
 let todoListElement = null;
@@ -13,19 +10,19 @@ const initView = (templateElement, listElement) => {
 
 const toggleCompletionView = (todoElement, isTodoCompleted) => {
     isTodoCompleted ? 
-    todoElement.classList.add(TODO_ITEM_COMPLETION_CLASS) : 
-    todoElement.classList.remove(TODO_ITEM_COMPLETION_CLASS);
+    todoElement.classList.add(MARKUP_CLASS.TODO_ITEM_COMPLETION) : 
+    todoElement.classList.remove(MARKUP_CLASS.TODO_ITEM_COMPLETION);
 };
 
 const renderTodo = (todo) => {
     const newTodoFragment= todoTemplateElement.content.cloneNode(true);
-    const newTodoItemElement = newTodoFragment.querySelector(TODO_ITEM_ELEMENT_SELECTOR);
+    const newTodoItemElement = newTodoFragment.querySelector(SELECTOR.TODO_ITEM_ELEMENT);
 
-    const newTodoTitleElement = newTodoItemElement.querySelector(TODO_ITEM_TITLE_SELECTOR);
+    const newTodoTitleElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_TITLE);
     newTodoTitleElement.textContent = todo.title;
 
     if (todo.isCompleted) {
-        const newTodoStatusElement = newTodoItemElement.querySelector(TODO_ITEM_STATUS_SELECTOR);
+        const newTodoStatusElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_STATUS);
         newTodoStatusElement.setAttribute('checked', '');
         toggleCompletionView(newTodoItemElement, true);
     }
@@ -46,12 +43,12 @@ const removeTodo = (todoToRemove) => {
     todoToRemove.remove();
 };
 
-const replaceElementByInput = (elementToEdit) => {
+const replaceElementByInput = (elementToReplace) => {
     const inputElement = document.createElement('input');
     inputElement.setAttribute('type', 'text');
-    inputElement.value = elementToEdit.textContent;
+    inputElement.value = elementToReplace.textContent;
 
-    elementToEdit.parentNode.replaceChild(inputElement, elementToEdit);
+    elementToReplace.parentNode.replaceChild(inputElement, elementToReplace);
 
     inputElement.focus();
 

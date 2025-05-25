@@ -1,63 +1,45 @@
-import { TodoView } from './todo-view.js';
-import { TodoStorage } from './todo-storage.js';
 import { Utils } from './utils.js';
 
-const initEditMode = (elementToEdit, parentTodoId, propertyToEditType) => {
-    const newInputElement = TodoView.replaceElementByInput(elementToEdit);
-    const initElementToEditValue = elementToEdit.textContent;
+const TodoEdit = (inputElement, confirmEditCb, cancelEditCb) => {
+    const initEdit = () => {
+        let isActiveEdit = true;
 
-    let isEditActive = true;
+        const removeListeners = () => {
+            inputElement.removeEventListener('blur', handleBlur);
+            inputElement.removeEventListener('keydown', handleEscKey);
+            inputElement.removeEventListener('keydown', handleEnterKey);
+        };
 
-    const confirmEditChanges = () => {
-        if (isEditActive) {
-            isEditActive = false;
-
-            const editedContent = TodoView.replaceInputByElement(newInputElement, elementToEdit);
-
-            TodoStorage.editTodoProperty(parentTodoId, propertyToEditType, editedContent);
+        const handleBlur = () => {
+            if (isActiveEdit) {
+                isActiveEdit = false;
+                confirmEditCb();
+                removeListeners();
+            }
         }
-    }
 
-    const undoEditChanges = () => {
-        if (isEditActive) {
-            isEditActive = false;
-            TodoView.replaceInputByElement(newInputElement, elementToEdit, initElementToEditValue);
-        }
-    }
+        const handleEnterKey = (event) => {
+            if (Utils.isEnterKey(event) && isActiveEdit) {
+                isActiveEdit = false;
+                confirmEditCb();
+                removeListeners();
+            }
+        };
 
-    const handleBlur = () => {
-        confirmEditChanges();
-        closeEditMode();
+        const handleEscKey = (event) => {
+            if (Utils.isEscKey(event)) {
+                isActiveEdit = false;
+                cancelEditCb();
+                removeListeners();
+            }
+        };
+
+        inputElement.addEventListener('blur', handleBlur);
+        inputElement.addEventListener('keydown', handleEscKey);
+        inputElement.addEventListener('keydown', handleEnterKey);
     };
 
-    const handleEnterKey = (event) => {
-        if (Utils.isEnterKey(event)) {
-                event.preventDefault();
-                confirmEditChanges();
-                closeEditMode();
-        }
-    };
-
-    const handleEscKey = (event) => {
-        if (Utils.isEscKey(event)) {
-            event.preventDefault();
-            undoEditChanges()
-            closeEditMode();
-        }
-    };
-
-    newInputElement.addEventListener('blur', handleBlur);
-    newInputElement.addEventListener('keydown', handleEscKey);
-    newInputElement.addEventListener('keydown', handleEnterKey);
-    
-
-    function closeEditMode() {
-        newInputElement.removeEventListener('blur', handleBlur);
-        newInputElement.removeEventListener('keydown', handleEscKey);
-        newInputElement.removeEventListener('keydown', handleEnterKey);
-    };
+    return { initEdit };
 };
 
-export const TodoEdit = {
-    initEditMode,
-}
+export { TodoEdit };

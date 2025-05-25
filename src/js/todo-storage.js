@@ -1,11 +1,8 @@
 import { updateLocalStorage, getLocalStorage } from './local-storage.js';
+import { TODO_PROPERTY_TYPE } from './const.js';
 import Todo from './todo.js';
 
 const STORAGE_NAME = 'todoStorage';
-
-const TODO_PROPERTY_TYPE_TITLE = 'title';
-// const TODO_PROPERTY_TYPE_DESCRIPTION = 'description';
-// const TODO_PROPERTY_TYPE_DUEDATE = 'duedate';
 
 let storage = [];
 
@@ -22,7 +19,7 @@ const rehydrateLocalStorage = () => {
     const plainStorage = getPlainStorage();
         
     const rehydratedStorage = plainStorage.map((plainTodo) => {
-        return new Todo(plainTodo.title, plainTodo.isCompleted, plainTodo.id);
+        return new Todo(plainTodo.title, plainTodo.isCompleted, /*plainTodo.description, plainTodo.duedate, */plainTodo.id);
     });
     
     return rehydratedStorage;
@@ -70,13 +67,13 @@ const editTodoProperty = (todoToEditId, propertyToEditType, newContent) => {
 
     if(todoToEdit) {
         switch(propertyToEditType) {
-            case TODO_PROPERTY_TYPE_TITLE:
+            case TODO_PROPERTY_TYPE.TITLE:
                 editTodoTitle(todoToEdit, newContent);
                 break;
-            // case TODO_PROPERTY_TYPE_DESCRIPTION:
+            // case TODO_PROPERTY_TYPE.DESCRIPTION:
             //     editTodoDescription(todoToEdit, newContent);
             //     break;
-            // case TODO_PROPERTY_TYPE_DUEDATE:
+            // case TODO_PROPERTY_TYPE.DUEDATE:
             //     editTodoDuedate(todoToEdit, newContent);
             //     break;
         }

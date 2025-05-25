@@ -10,6 +10,16 @@ const InputServicePrompt = (() => {
         return status; 
     }
 
+    // const getDescription = () => {
+    //     const description = prompt('Describe your task: '); // temporary solution for convenience, no need for validation at this point
+    //     return description; 
+    // }
+
+    // const getDuedate = () => {
+    //     const duedate = prompt('Enter duedate: '); // temporary solution for convenience, no need for validation at this point
+    //     return duedate; 
+    // }
+
     return { getTitle, getStatus };
 })();
 

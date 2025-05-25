@@ -2,22 +2,11 @@ import { createTodo } from './create-todo.js';
 import { TodoStorage } from './todo-storage.js';
 import { TodoView } from './todo-view.js';
 import { TodoEdit } from './todo-edit.js';
+import { TODO_PROPERTY_TYPE, SELECTOR } from './const.js';
 
-const TODO_LIST_ELEMENT_SELECTOR = '.todo-list';
-const TODO_ITEM_ELEMENT_SELECTOR = '.todo-item';
-const ADD_TODO_BUTTON_SELECTOR = '.add-todo';
-const TODO_ITEM_TEMPLATE_SELECTOR = '.todo-item-template';
-const TODO_ITEM_CHECKBOX_SELECTOR = '.todo-status';
-const TODO_ITEM_DELETE_BTN_SELECTOR = '.todo-delete';
-const TODO_ITEM_TITLE_SELECTOR = '.todo-title';
-
-const todoListElement = document.querySelector(TODO_LIST_ELEMENT_SELECTOR);
-const addTodoBtnElement = document.querySelector(ADD_TODO_BUTTON_SELECTOR);
-const todoTemplateElement = document.querySelector(TODO_ITEM_TEMPLATE_SELECTOR);
-
-const TODO_PROPERTY_TYPE_TITLE = 'title';
-// const TODO_PROPERTY_TYPE_DESCRIPTION = 'description';
-// const TODO_PROPERTY_TYPE_DUEDATE = 'duedate';
+const todoListElement = document.querySelector(SELECTOR.TODO_LIST);
+const addTodoBtnElement = document.querySelector(SELECTOR.ADD_TODO_BUTTON);
+const todoTemplateElement = document.querySelector(SELECTOR.TODO_ITEM_TEMPLATE);
 
 const handleAddBtnClick = () => {
     const newTodo = createTodo();
@@ -26,10 +15,10 @@ const handleAddBtnClick = () => {
     TodoView.renderTodo(newTodo);
 };
 
-const getInteractedElementParent = (interactedElement) => interactedElement.closest(TODO_ITEM_ELEMENT_SELECTOR); 
+const getInteractedElementParentTodo = (interactedElement) => interactedElement.closest(SELECTOR.TODO_ITEM_ELEMENT); 
 
 const handleCheckboxClick = (checkboxElement) => {
-    const updatedTodoElement = getInteractedElementParent(checkboxElement);
+    const updatedTodoElement = getInteractedElementParentTodo(checkboxElement);
     
     const updatedTodoObject = TodoStorage.toggleTodoCompletion(updatedTodoElement.id);
     
@@ -37,29 +26,41 @@ const handleCheckboxClick = (checkboxElement) => {
 };
 
 const handleDeleteBtnClick = (deleteBtnElement) => {
-    const deletedTodoElement = getInteractedElementParent(deleteBtnElement);
+    const deletedTodoElement = getInteractedElementParentTodo(deleteBtnElement);
 
     TodoStorage.deleteTodo(deletedTodoElement.id);
 
     TodoView.removeTodo(deletedTodoElement);
 };
 
-const handleTitleClick = (titleElement) => {
-    const parentTodoId = getInteractedElementParent(titleElement).id;
+const handleTodoChildClick = (todoChildElement, propertyToEditType) => {
+    const parentTodo = getInteractedElementParentTodo(todoChildElement);
+    const initElementValue = todoChildElement.textContent;
 
-    TodoEdit.initEditMode(titleElement, parentTodoId, TODO_PROPERTY_TYPE_TITLE);
+    const newInputElement = TodoView.replaceElementByInput(todoChildElement);
+
+    const confirmEdit = () => {
+        const editedContent = TodoView.replaceInputByElement(newInputElement, todoChildElement);
+        TodoStorage.editTodoProperty(parentTodo.id, propertyToEditType, editedContent);
+    };
+
+    const cancelEdit = () => {
+        TodoView.replaceInputByElement(newInputElement, todoChildElement, initElementValue);
+    };
+
+    const newEdit = TodoEdit(newInputElement, confirmEdit, cancelEdit);
+
+    newEdit.initEdit();
 };
-
-// const handleDescriptionClick = () => {};
-
-// const handleDuedateClick = () => {};
 
 const delegateTodoListClickEvent = (event) => {
     const clickedElement = event.target;
 
-    const checkboxElement = clickedElement.closest(TODO_ITEM_CHECKBOX_SELECTOR);
-    const deleteBtnElement = clickedElement.closest(TODO_ITEM_DELETE_BTN_SELECTOR);
-    const titleElement = clickedElement.closest(TODO_ITEM_TITLE_SELECTOR);
+    const checkboxElement = clickedElement.closest(SELECTOR.TODO_ITEM_CHECKBOX);
+    const deleteBtnElement = clickedElement.closest(SELECTOR.TODO_ITEM_DELETE_BTN);
+    const titleElement = clickedElement.closest(SELECTOR.TODO_ITEM_TITLE);
+    // const descriptionElement = clickedElement.closest(SELECTOR.TODO_ITEM_DESCRIPTION);
+    // const duedateElement = clickedElement.closest(SELECTOR.TODO_ITEM_DUEDATE);
 
     if (checkboxElement) {
         handleCheckboxClick(checkboxElement);
@@ -70,9 +71,16 @@ const delegateTodoListClickEvent = (event) => {
     }
 
     if (titleElement) {
-        handleTitleClick(titleElement);
-        // need to handle deletion while editing
+        handleTodoChildClick(titleElement, TODO_PROPERTY_TYPE.TITLE);
     }
+
+    // if (descriptionElement) {
+    //     handleTodoChildClick(descriptionElement, TODO_PROPERTY_TYPE.DESCRIPTION);
+    // }
+
+    // if (duedateElement) {
+    //     handleTodoChildClick(duedateElement, TODO_PROPERTY_TYPE.DUEDATE);
+    // }
 };
         
 const initControl = () => {
