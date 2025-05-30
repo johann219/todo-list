@@ -11,13 +11,107 @@
         <button class="log">Log Storage</button>
         <button class="add-todo">ADD</button>
         <section class="todo-list">
+            <article class="todo-item">
+                <div class="todo-content-wrapper">
+                    <h3 class="todo-title">Do the dishes</h3>
+                    <p class="todo-description">Or else!!!</p>
+                    <p class="todo-datetime">28 May 2025, 18:00</p>
+                </div>
+                <div class="todo-button-wrapper">
+                    <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo">
+                    <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo">
+                </div>
+            </article>
+            <article class="todo-item">
+                <div class="todo-content-wrapper">
+                    <h3 class="todo-title">Lorem ipsum dolor sit amet consectetur</h3>
+                    <p class="todo-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rutrum felis eget orci pellentesque pellentesque. Phasellus neque orci, volutpat ut ornare nec, consequat sit amet erat.</p>
+                    <p class="todo-datetime">28 May 2025, 18:00</p>
+                </div>
+                <div class="todo-button-wrapper">
+                    <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo">
+                    <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo">
+                </div>
+            </article>
+            <article class="todo-item">
+                <div class="todo-content-wrapper">
+                    <h3 class="todo-title">Lorem ipsum</h3>
+                    <p class="todo-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rutrum felis eget orci pellentesque pellentesque.</p>
+                </div>
+                <div class="todo-button-wrapper">
+                    <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo">
+                    <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo">
+                </div>
+            </article>
+            <article class="todo-item">
+                <div class="todo-content-wrapper">
+                    <h3 class="todo-title">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
+                </div>
+                <div class="todo-button-wrapper">
+                    <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo">
+                    <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo">
+                </div>
+            </article>
+            <article class="todo-item">
+                <div class="todo-content-wrapper">
+                    <h3 class="todo-title">Lorem ipsum dolor sit amet</h3>
+                </div>
+                <div class="todo-button-wrapper">
+                    <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo">
+                    <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo">
+                </div>
+            </article>
+
+            <article class="todo-form">
+                <div class="todo-form-content-wrapper">
+                    <label class="todo-form-title-label hidden">Title</label>
+                    <input type="text" class="todo-form-title" placeholder="What to do?..">
+                    <label class="todo-form-description-label hidden">Description</label>
+                    <textarea name="" id="" class="todo-form-description" placeholder="...And how to do it?"></textarea>
+                    <div class="todo-form-datetime-wrapper">
+                        <img src="./assets/icons/calendar-week.svg" alt="Datetime Picker" class="todo-form-datetime-icon">
+                        <span class="todo-form-datetime-display">siski</span>
+                        <label class="todo-form-datetime-label hidden">Datetime</label>
+                        <input type="datetime-local" class="todo-form-datetime-input">
+                    </div>
+                </div>
+                <div class="todo-form-button-wrapper">
+                    <button class="todo-form-cancel todo-form-button">Cancel</button>
+                    <button class="todo-form-confirm todo-form-button">Confirm</button>
+                </div>
+            </article>
+
             <template class="todo-item-template">
                 <article class="todo-item">
-                    <h3 class="todo-title"></h3>
-                    <input type="checkbox" class="todo-status">
-                    <button class="todo-delete">Delete</button>
-                    <p class="todo-duedate"></p>
-                    <p class="todo-description"></p>
+                    <div class="todo-content-wrapper">
+                        <h3 class="todo-title"></h3>
+                        <p class="todo-description"></p>
+                        <p class="todo-datetime"></p>
+                    </div>
+                    <div class="todo-button-wrapper">
+                        <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo">
+                        <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo">
+                    </div>
+                </article>
+            </template>
+            <template class="todo-form-template">
+                <article class="todo-form">
+                    <div class="todo-form-content-wrapper">
+                        <label class="todo-form-title-label hidden">Title</label>
+                        <input type="text" class="todo-form-title" placeholder="What to do?..">
+                        <label class="todo-form-description-label hidden">Description</label>
+                        <textarea name="" id="" class="todo-form-description" placeholder="...And how to do it?"></textarea>
+                        <div class="todo-form-datetime-wrapper">
+                            <img src="./assets/icons/calendar-week.svg" alt="Datetime Picker" class="todo-form-datetime-icon">
+                            <span class="todo-form-datetime-display">siski</span>
+                            <label class="todo-form-datetime-label hidden">Datetime</label>
+                            <input type="datetime-local" class="todo-form-datetime-input">
+                        </div>
+                    </div>
+                    <div class="todo-form-button-wrapper">
+                        <button class="todo-form-cancel todo-form-button">Cancel</button>
+                        <button class="todo-form-confirm todo-form-button">Confirm</button>
+                    </div>
                 </article>
             </template>
         </section>
