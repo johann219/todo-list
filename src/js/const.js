@@ -8,7 +8,7 @@ const SELECTOR = {
     ADD_TODO_BUTTON: '.add-todo',
     TODO_LIST: '.todo-list',
 
-    TODO_ITEM_TEMPLATE: '.todo-form-template',
+    TODO_ITEM_TEMPLATE: '.todo-item-template',
     TODO_ITEM_ELEMENT: '.todo-item',
     TODO_CONTENT_WRAPPER: '.todo-content-wrapper',
     TODO_ITEM_TITLE: '.todo-title',
@@ -19,7 +19,7 @@ const SELECTOR = {
     TODO_BUTTON_CANCEL: '.todo-cancel',
 
     TODO_FORM_TEMPLATE: '.todo-form-template',
-    TODO_FORM: '.todo-form',
+    TODO_FORM_ELEMENT: '.todo-form',
     TODO_FORM_CONTENT_WRAPPER: '.todo-form-content-wrapper',
     TODO_FORM_TITLE_INPUT: '.todo-form-title',
     TODO_FORM_DESCRIPTION_INPUT: '.todo-form-description',

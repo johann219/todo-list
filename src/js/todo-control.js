@@ -6,13 +6,11 @@ import { TODO_PROPERTY_TYPE, SELECTOR } from './const.js';
 
 const todoListElement = document.querySelector(SELECTOR.TODO_LIST);
 const addTodoBtnElement = document.querySelector(SELECTOR.ADD_TODO_BUTTON);
-const todoTemplateElement = document.querySelector(SELECTOR.TODO_ITEM_TEMPLATE);
+const todoItemTemplateElement = document.querySelector(SELECTOR.TODO_ITEM_TEMPLATE);
+const todoFormTemplateElement = document.querySelector(SELECTOR.TODO_FORM_TEMPLATE);
 
 const handleAddBtnClick = () => {
-    const newTodo = createTodo();
-
-    TodoStorage.addNewTodo(newTodo);
-    TodoView.renderTodo(newTodo);
+    TodoView.renderTodoForm();
 };
 
 const getInteractedElementParentTodo = (interactedElement) => interactedElement.closest(SELECTOR.TODO_ITEM_ELEMENT); 
@@ -85,7 +83,7 @@ const delegateTodoListClickEvent = (event) => {
         
 const initControl = () => {
     TodoStorage.initStorage();
-    TodoView.initView(todoTemplateElement, todoListElement);
+    TodoView.initView(todoItemTemplateElement, todoFormTemplateElement, todoListElement);
 
     todoListElement.addEventListener('click', delegateTodoListClickEvent);
 

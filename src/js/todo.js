@@ -1,11 +1,11 @@
 import { Utils } from './utils.js';
 
 export default class Todo {
-    constructor(title, isCompleted, /*description, duedate,*/id = Utils.createRandomId()) {
+    constructor(title, isCompleted, description, datetime, id = Utils.createRandomId()) {
         this._title = title;
         this._isCompleted = isCompleted;
-        // this._description = description;
-        // this._duedate = duedate;
+        this._description = description;
+        this._datetime = datetime;
         this._id = id;
     }
 
@@ -17,13 +17,13 @@ export default class Todo {
         return this._isCompleted;
     }
 
-    // get description() {
-    //     return this._description;
-    // }
+    get description() {
+        return this._description;
+    }
 
-    // get duedate() {
-    //     return this._duedate;
-    // }
+    get datetime() {
+        return this._datetime;
+    }
 
     get id() {
         return this._id;
@@ -31,6 +31,14 @@ export default class Todo {
 
     set title(todoTitle) {
         this._title = todoTitle;
+    }
+
+    set description(todoDescription) {
+        this._description = todoDescription;
+    }
+
+    set datetime(todoDateTime) {
+        this._datetime = todoDateTime;
     }
 
     toggleCompletionStatus() {
@@ -41,6 +49,7 @@ export default class Todo {
         return {
             title: this._title,
             isCompleted: this._isCompleted,
+            description: this._description,
             id: this._id,
         }
     }
