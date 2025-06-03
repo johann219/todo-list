@@ -1,4 +1,4 @@
-import { SELECTOR, MARKUP_CLASS } from './const.js';
+import {SELECTOR, MARKUP_CLASS} from './const.js';
 
 let todoTemplateElement = null;
 let todoListElement = null;
@@ -9,25 +9,42 @@ const initView = (templateElement, listElement) => {
 };
 
 const toggleCompletionView = (todoElement, isTodoCompleted) => {
-    isTodoCompleted ? 
-    todoElement.classList.add(MARKUP_CLASS.TODO_ITEM_COMPLETION) : 
-    todoElement.classList.remove(MARKUP_CLASS.TODO_ITEM_COMPLETION);
+    isTodoCompleted ?
+        todoElement.classList.add(MARKUP_CLASS.TODO_ITEM_COMPLETION) :
+        todoElement.classList.remove(MARKUP_CLASS.TODO_ITEM_COMPLETION);
+};
+
+const renderTodoTitle = (todoTitleElement, todoTitle) => {
+    todoTitleElement.textContent = todoTitle;
+};
+
+const renderTodoDescription = (todoDescriptionElement, todoDescription) => {
+    if (todoDescription) {
+        todoDescriptionElement.textContent = todoDescription;
+    } else {
+        todoDescriptionElement.remove();
+    }
+};
+
+const renderTodoDatetime = (todoDatetimeElement, todoDatetime) => {
+    if (todoDatetime) {
+        todoDatetimeElement.textContent = todoDatetime;
+    } else {
+        todoDatetimeElement.remove();
+    }
 };
 
 const renderTodo = (todo) => {
-    const newTodoFragment= todoTemplateElement.content.cloneNode(true);
-    const newTodoItemElement = newTodoFragment.querySelector(SELECTOR.TODO_ITEM_ELEMENT);
+    const newTodoFragment = todoTemplateElement.content.cloneNode(true);
 
-    const newTodoTitleElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_TITLE);
-    newTodoTitleElement.textContent = todo.title;
+    const newTodoTitleElement = newTodoFragment.querySelector(SELECTOR.TODO_ITEM_TITLE);
+    renderTodoTitle(newTodoTitleElement, todo.title);
 
-    if (todo.isCompleted) {
-        const newTodoStatusElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_STATUS);
-        newTodoStatusElement.setAttribute('checked', '');
-        toggleCompletionView(newTodoItemElement, true);
-    }
+    const newTodoDescriptionElement = newTodoFragment.querySelector(SELECTOR.TODO_ITEM_DESCRIPTION);
+    renderTodoDescription (newTodoDescriptionElement, todo.description);
 
-    newTodoItemElement.setAttribute('id', `${todo.id}`);
+    const newTodoDatetimeElement = newTodoFragment.querySelector(SELECTOR.TODO_ITEM_DATETIME);
+    renderTodoDatetime(newTodoDatetimeElement, todo.datetime);
 
     todoListElement.appendChild(newTodoFragment);
 }
@@ -35,7 +52,7 @@ const renderTodo = (todo) => {
 const renderTodoList = (listToRender) => {
     todoListElement.innerHTML = '';
     listToRender.forEach((todo) => {
-    renderTodo(todo);
+        renderTodo(todo);
     });
 };
 
@@ -63,10 +80,10 @@ const replaceInputByElement = (inputElement, replacerElement, replacingValue = n
     return inputElement.value;
 };
 
-export const TodoView = { 
+export const TodoView = {
     initView,
-    renderTodo, 
-    renderTodoList, 
+    renderTodo,
+    renderTodoList,
     toggleCompletionView,
     removeTodo,
     replaceElementByInput,
