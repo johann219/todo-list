@@ -151,13 +151,16 @@ main {
 }
 
 .todo-form-datetime-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   position: relative;
   font-size: 0.8rem;
   color: var(--dim-blue-green);
 }
 
 .todo-form-datetime-icon {
-  max-width: 1.5rem;
+  max-width: 1.6rem;
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
 }
