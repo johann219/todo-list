@@ -47,6 +47,8 @@ const renderTodo = (todo) => {
     const newTodoDatetimeElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_DATETIME);
     renderTodoDatetime(newTodoDatetimeElement, todo.datetime);
 
+    toggleCompletionView(newTodoItemElement, todo.isCompleted);
+
     newTodoItemElement.id = todo.id;
 
     todoListElement.appendChild(newTodoFragment);

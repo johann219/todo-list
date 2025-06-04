@@ -44,47 +44,9 @@ const addNewTodo = (todo) => {
 
 const toggleTodoCompletion = (todoToToggleId) => {
     const todoToToggle = getTodoById(todoToToggleId);
-        
-    if (todoToToggle) {
-        todoToToggle.toggleCompletionStatus();
-        saveToLocalStorage();
-        return todoToToggle;
-    }
-
-    return null
-};
-
-const editTodoTitle = (todoToEdit, newTitle) => {
-    todoToEdit.title = newTitle;
-};
-
-// const editTodoDescription = (todoToEdit, newDescription) => {
-//     todoToEdit.description = description;
-// };
-
-// const editTodoDuedate = (todoToEdit, newDuedate) => {
-//     todoToEdit.duedate = newDuedate;
-// };
-
-const editTodoProperty = (todoToEditId, propertyToEditType, newContent) => {
-    const todoToEdit = getTodoById(todoToEditId);
-
-    if(todoToEdit) {
-        switch(propertyToEditType) {
-            case TODO_PROPERTY_TYPE.TITLE:
-                editTodoTitle(todoToEdit, newContent);
-                break;
-            // case TODO_PROPERTY_TYPE.DESCRIPTION:
-            //     editTodoDescription(todoToEdit, newContent);
-            //     break;
-            // case TODO_PROPERTY_TYPE.DUEDATE:
-            //     editTodoDuedate(todoToEdit, newContent);
-            //     break;
-        }
-
-        saveToLocalStorage();
-    }
-
+    todoToToggle.toggleCompletionStatus();
+    saveToLocalStorage();
+    return todoToToggle;
 };
 
 const deleteTodo = (todoToDeleteId) => {
@@ -100,5 +62,4 @@ export const TodoStorage = {
     addNewTodo, 
     toggleTodoCompletion,
     deleteTodo,
-    editTodoProperty,
 };

@@ -217,5 +217,5 @@ main {
 }
 
 .todo-completed {
-  text-decoration: line-through red;
+  background-color: #072a07;
 }

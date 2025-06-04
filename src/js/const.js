@@ -14,9 +14,9 @@ const SELECTOR = {
     TODO_ITEM_TITLE: '.todo-title',
     TODO_ITEM_DESCRIPTION: '.todo-description',
     TODO_ITEM_DATETIME: '.todo-datetime',
-    TODO_BUTTON_WRAPPER: '.todo-button-wrapper',
-    TODO_BUTTON_COMPLETE: '.todo-complete',
-    TODO_BUTTON_CANCEL: '.todo-cancel',
+    TODO_ITEM_BUTTON_WRAPPER: '.todo-button-wrapper',
+    TODO_ITEM_BUTTON_COMPLETE: '.todo-complete',
+    TODO_ITEM_BUTTON_DELETE: '.todo-delete',
 
     TODO_FORM_TEMPLATE: '.todo-form-template',
     TODO_FORM_ELEMENT: '.todo-form',

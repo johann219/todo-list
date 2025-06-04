@@ -56,73 +56,56 @@ const handleAddBtnClick = () => {
     listMode = LIST_STATE.CREATING;
 };
 
-const getInteractedElementParentTodo = (interactedElement) => interactedElement.closest(SELECTOR.TODO_ITEM_ELEMENT); 
+const handleTodoComplete = (todoToCompleteElement) => {
+    const updatedTodoObject = TodoStorage.toggleTodoCompletion(todoToCompleteElement.id);
+    TodoView.toggleCompletionView(todoToCompleteElement, updatedTodoObject.isCompleted);
 
-const handleCheckboxClick = (checkboxElement) => {
-    const updatedTodoElement = getInteractedElementParentTodo(checkboxElement);
-    
-    const updatedTodoObject = TodoStorage.toggleTodoCompletion(updatedTodoElement.id);
-    
-    TodoView.toggleCompletionView(updatedTodoElement, updatedTodoObject.isCompleted);
+    console.log(`Todo with id ${todoToCompleteElement.id} completed`);
 };
 
-const handleDeleteBtnClick = (deleteBtnElement) => {
-    const deletedTodoElement = getInteractedElementParentTodo(deleteBtnElement);
+const handleTodoDelete = (todoToDeleteElement) => {
+    TodoStorage.deleteTodo(todoToDeleteElement.id);
+    TodoView.removeTodo(todoToDeleteElement);
 
-    TodoStorage.deleteTodo(deletedTodoElement.id);
-
-    TodoView.removeTodo(deletedTodoElement);
+    console.log(`Todo with id ${todoToDeleteElement.id} deleted`);
 };
 
-const handleTodoChildClick = (todoChildElement, propertyToEditType) => {
-    const parentTodo = getInteractedElementParentTodo(todoChildElement);
-    const initElementValue = todoChildElement.textContent;
-
-    const newInputElement = TodoView.replaceElementByInput(todoChildElement);
-
-    const confirmEdit = () => {
-        const editedContent = TodoView.replaceInputByElement(newInputElement, todoChildElement);
-        TodoStorage.editTodoProperty(parentTodo.id, propertyToEditType, editedContent);
-    };
-
-    const cancelEdit = () => {
-        TodoView.replaceInputByElement(newInputElement, todoChildElement, initElementValue);
-    };
-
-    const newEdit = TodoEdit(newInputElement, confirmEdit, cancelEdit);
-
-    newEdit.initEdit();
-};
+// const handleTodoChildClick = (todoChildElement, propertyToEditType) => {
+//     const parentTodo = getInteractedElementParentTodo(todoChildElement);
+//     const initElementValue = todoChildElement.textContent;
+//
+//     const newInputElement = TodoView.replaceElementByInput(todoChildElement);
+//
+//     const confirmEdit = () => {
+//         const editedContent = TodoView.replaceInputByElement(newInputElement, todoChildElement);
+//         TodoStorage.editTodoProperty(parentTodo.id, propertyToEditType, editedContent);
+//     };
+//
+//     const cancelEdit = () => {
+//         TodoView.replaceInputByElement(newInputElement, todoChildElement, initElementValue);
+//     };
+//
+//     const newEdit = TodoEdit(newInputElement, confirmEdit, cancelEdit);
+//
+//     newEdit.initEdit();
+// };
 
 const delegateTodoListClickEvent = (event) => {
-    const clickedTodoElement = getInteractedElementParentTodo(event.target);
+    const clickedElement = event.target;
+    const clickedTodoElement = clickedElement.closest(SELECTOR.TODO_ITEM_ELEMENT);
 
-    console.log(clickedTodoElement);
-    // const checkboxElement = clickedElement.closest(SELECTOR.TODO_ITEM_CHECKBOX);
-    // const deleteBtnElement = clickedElement.closest(SELECTOR.TODO_ITEM_DELETE_BTN);
-    // const titleElement = clickedElement.closest(SELECTOR.TODO_ITEM_TITLE);
-    // // const descriptionElement = clickedElement.closest(SELECTOR.TODO_ITEM_DESCRIPTION);
-    // // const duedateElement = clickedElement.closest(SELECTOR.TODO_ITEM_DUEDATE);
-    //
-    // if (checkboxElement) {
-    //     handleCheckboxClick(checkboxElement);
-    // }
-    //
-    // if (deleteBtnElement) {
-    //     handleDeleteBtnClick(deleteBtnElement);
-    // }
-    //
-    // if (titleElement) {
-    //     handleTodoChildClick(titleElement, TODO_PROPERTY_TYPE.TITLE);
-    // }
-    //
-    // // if (descriptionElement) {
-    // //     handleTodoChildClick(descriptionElement, TODO_PROPERTY_TYPE.DESCRIPTION);
-    // // }
-    //
-    // // if (duedateElement) {
-    // //     handleTodoChildClick(duedateElement, TODO_PROPERTY_TYPE.DUEDATE);
-    // // }
+    const completeBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_COMPLETE);
+    const deleteBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_DELETE);
+
+    if (completeBtn) {
+        handleTodoComplete(clickedTodoElement);
+        return;
+    }
+
+    if (deleteBtn) {
+        handleTodoDelete(clickedTodoElement);
+        return;
+    }
 };
         
 const initControl = () => {
