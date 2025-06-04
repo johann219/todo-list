@@ -1,6 +1,5 @@
 import Todo from './todo.js';
 import { SELECTOR } from './const.js';
-import {createTodo} from "./cumulative";
 
 const createTodoFromFormElement = (formElement) => {
     const title = formElement.querySelector(SELECTOR.TODO_FORM_TITLE_INPUT).value;

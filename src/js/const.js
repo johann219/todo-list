@@ -36,4 +36,10 @@ const MARKUP_CLASS = {
     TODO_ITEM_COMPLETION: 'todo-completed',
 }
 
-export {TODO_PROPERTY_TYPE, SELECTOR, MARKUP_CLASS};
+const LIST_STATE = {
+    VIEWING: 'viewing',
+    EDITING: 'editing',
+    CREATING: 'creating',
+}
+
+export {TODO_PROPERTY_TYPE, SELECTOR, MARKUP_CLASS, LIST_STATE };

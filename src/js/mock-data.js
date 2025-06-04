@@ -38,9 +38,8 @@ const MockTodosData = [
 const MockTodos = [];
 
 MockTodosData.forEach(todoData => {
-   const newTodo = new Todo(todoData.title, todoData.isCompleted, todoData.description, todoData.datetime);
-
-   MockTodos.push(newTodo);
+    const newTodo = new Todo(todoData.title, todoData.isCompleted, todoData.description, todoData.datetime);
+    MockTodos.push(newTodo);
 });
 
 export { MockTodos };

@@ -1,6 +1,6 @@
-import { updateLocalStorage, getLocalStorage } from './local-storage.js';
+import { getLocalStorage, updateLocalStorage } from './local-storage.js';
 import { TODO_PROPERTY_TYPE } from './const.js';
-import Todo from './todo.js';
+import { TodoCreationService } from './todo-creation-service.js';
 import { MockTodos } from './mock-data.js';
 
 const STORAGE_NAME = 'todoStorage';
@@ -19,11 +19,7 @@ const getTodoById = (todoToFindId) => storage.find((todo) => todo.id === todoToF
 const rehydrateLocalStorage = () => {
     const plainStorage = getPlainStorage();
 
-    const rehydratedStorage = plainStorage.map((plainTodo) => {
-        return new Todo(plainTodo.title, plainTodo.isCompleted, /*plainTodo.description, plainTodo.duedate, */plainTodo.id);
-    });
-
-    return rehydratedStorage;
+    return plainStorage.map((plainTodo) => TodoCreationService.createTodoFromLocalStorageObject(plainTodo));
 };
 
 const saveToLocalStorage = () => {
@@ -35,7 +31,6 @@ const initStorage = () => {
 
     if (rehydratedLocalStorage.length > 0) {
         storage = rehydratedLocalStorage;
-        console.log('hello!');
     } else {
         storage = MockTodos;
         saveToLocalStorage();

@@ -50,6 +50,7 @@ export default class Todo {
             title: this._title,
             isCompleted: this._isCompleted,
             description: this._description,
+            datetime: this._datetime,
             id: this._id,
         }
     }
