@@ -135,5 +135,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# jetbrains
+.idea
+
 # personal cumulative file
 src/js/cumulative.js
