@@ -53,20 +53,20 @@ const createTodoElement = (todo) => {
 
     newTodoItemElement.id = todo.id;
 
-    return newTodoFragment;
+    return newTodoItemElement;
 }
 
-const renderNewTodo = (todo) => {
-    const newTodo = createTodoElement(todo);
-
-    todoListElement.appendChild(newTodo);
+const renderNewTodo = (todoItemElement) => {
+    todoListElement.appendChild(todoItemElement);
 };
 
 const renderTodoList = (listToRender) => {
     todoListElement.innerHTML = '';
 
     listToRender.forEach((todo) => {
-        renderNewTodo(todo);
+        const newTodoElement = createTodoElement(todo);
+
+        renderNewTodo(newTodoElement);
     });
 };
 
@@ -95,6 +95,10 @@ const createTodoForm = (todo = null) => {
     }
 
     return newTodoFormElement;
+};
+
+const renderNewTodoForm = (todoFormFragment) => {
+    todoListElement.appendChild(todoFormFragment);
 };
 
 const removeTodoForm = (todoFormElement) => {

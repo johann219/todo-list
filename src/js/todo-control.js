@@ -116,7 +116,7 @@ const handleAddBtnClick = () => {
             if (event.type === 'click' || Utils.isEscKey(event)) {
                 TodoView.removeTodoForm(todoCreationForm);
 
-                removeEventListeners();
+                removeListeners();
 
                 listMode = LIST_STATE.VIEWING;
             }
@@ -128,9 +128,11 @@ const handleAddBtnClick = () => {
 
                 TodoView.removeTodoForm(todoCreationForm);
                 TodoStorage.addNewTodo(newTodo);
-                TodoView.renderNewTodo(newTodo);
 
-                removeEventListeners();
+                const newTodoElement = TodoView.createTodoElement(newTodo);
+                TodoView.renderNewTodo(newTodoElement);
+
+                removeListeners();
 
                 listMode = LIST_STATE.VIEWING;
             }
@@ -142,7 +144,7 @@ const handleAddBtnClick = () => {
         window.addEventListener('keydown', cancelTodoFormCreating);
         window.addEventListener('keydown', confirmTodoFormCreating);
 
-        function removeEventListeners () {
+        function removeListeners () {
             todoFormCancelBtn.removeEventListener('click', cancelTodoFormCreating);
             todoFormConfirmBtn.removeEventListener('click', confirmTodoFormCreating);
 
