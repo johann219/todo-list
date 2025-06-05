@@ -1,9 +1,7 @@
 import { TodoCreationService } from './todo-creation-service.js';
 import { TodoStorage } from './todo-storage.js';
 import { TodoView } from './todo-view.js';
-import { TodoFormView } from './todo-form-view.js';
-import { TodoEdit } from './todo-edit.js';
-import { TODO_PROPERTY_TYPE, SELECTOR, LIST_STATE } from './const.js';
+import { SELECTOR, LIST_STATE } from './const.js';
 
 const todoListElement = document.querySelector(SELECTOR.TODO_LIST);
 const addTodoBtnElement = document.querySelector(SELECTOR.ADD_TODO_BUTTON);
@@ -26,9 +24,9 @@ const handleTodoEdit = (todoElement) => {
     listMode = LIST_STATE.EDITING;
 
     const todoObjectToEdit = TodoStorage.getTodoById(todoElement.id);
-    const todoEditForm = TodoFormView.createTodoForm(todoObjectToEdit);
+    const todoEditForm = TodoView.createTodoForm(todoObjectToEdit);
 
-    TodoFormView.replaceTodoWithForm(todoEditForm, todoElement);
+    TodoView.replaceTodoWithForm(todoEditForm, todoElement);
 
     const todoFormCancelBtn = todoEditForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CANCEL);
     const todoFormConfirmBtn = todoEditForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CONFIRM);
@@ -91,14 +89,14 @@ const handleAddBtnClick = () => {
     if (listMode === LIST_STATE.VIEWING) {
         listMode = LIST_STATE.CREATING;
 
-        const todoCreationForm = TodoFormView.createTodoForm();
+        const todoCreationForm = TodoView.createTodoForm();
         todoListElement.appendChild(todoCreationForm);
 
         const todoFormCancelBtn = todoCreationForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CANCEL);
         const todoFormConfirmBtn = todoCreationForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CONFIRM);
 
         const cancelTodoFormCreating = () => {
-            TodoFormView.removeTodoForm(todoCreationForm);
+            TodoView.removeTodoForm(todoCreationForm);
 
             removeEventListeners();
 
@@ -108,7 +106,7 @@ const handleAddBtnClick = () => {
         const confirmTodoFormCreating = () => {
             const newTodo = TodoCreationService.createTodoFromFormElement(todoCreationForm);
 
-            TodoFormView.removeTodoForm(todoCreationForm);
+            TodoView.removeTodoForm(todoCreationForm);
             TodoStorage.addNewTodo(newTodo);
             TodoView.renderNewTodo(newTodo);
 
@@ -131,8 +129,7 @@ const initControl = () => {
     listMode = LIST_STATE.VIEWING
 
     TodoStorage.initStorage();
-    TodoView.init(todoItemTemplateElement, todoListElement);
-    TodoFormView.init(todoFormTemplateElement);
+    TodoView.init(todoItemTemplateElement, todoFormTemplateElement, todoListElement);
 
     todoListElement.addEventListener('click', handleTodoItemClick);
 

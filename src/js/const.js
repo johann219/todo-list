@@ -1,9 +1,3 @@
-const TODO_PROPERTY_TYPE = {
-    TITLE: 'title',
-    DESCRIPTION: 'description',
-    DUEDATE: 'duedate',
-}
-
 const SELECTOR = {
     ADD_TODO_BUTTON: '.add-todo',
     TODO_LIST: '.todo-list',
@@ -42,4 +36,4 @@ const LIST_STATE = {
     CREATING: 'creating',
 }
 
-export {TODO_PROPERTY_TYPE, SELECTOR, MARKUP_CLASS, LIST_STATE };
+export { SELECTOR, MARKUP_CLASS, LIST_STATE };
