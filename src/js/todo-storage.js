@@ -58,9 +58,6 @@ const deleteTodo = (todoToDeleteId) => {
 const editTodo = (todoToEditId, newTodo) => {
     const todoToEdit = getTodoById(todoToEditId);
 
-    console.log(todoToEdit);
-    console.log(newTodo);
-
     todoToEdit.title = newTodo.title;
     todoToEdit.description = newTodo.description;
     todoToEdit.datetime = newTodo.datetime;
