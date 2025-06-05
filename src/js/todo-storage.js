@@ -1,5 +1,4 @@
 import { getLocalStorage, updateLocalStorage } from './local-storage.js';
-import { TODO_PROPERTY_TYPE } from './const.js';
 import { TodoCreationService } from './todo-creation-service.js';
 import { MockTodos } from './mock-data.js';
 
@@ -56,10 +55,27 @@ const deleteTodo = (todoToDeleteId) => {
     saveToLocalStorage();
 };
 
+const editTodo = (todoToEditId, newTodo) => {
+    const todoToEdit = getTodoById(todoToEditId);
+
+    console.log(todoToEdit);
+    console.log(newTodo);
+
+    todoToEdit.title = newTodo.title;
+    todoToEdit.description = newTodo.description;
+    todoToEdit.datetime = newTodo.datetime;
+
+    saveToLocalStorage();
+
+    return todoToEdit
+};
+
 export const TodoStorage = { 
     initStorage, 
     getStorage,
     addNewTodo, 
     toggleTodoCompletion,
     deleteTodo,
+    getTodoById,
+    editTodo,
 };

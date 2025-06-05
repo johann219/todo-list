@@ -51,6 +51,10 @@ const removeTodoForm = (todoFormElement) => {
     todoFormElement.remove();
 };
 
+const replaceTodoWithForm = (formElement, todoElement) => {
+    formElement.id = todoElement.id;
+    todoElement.parentNode.replaceChild(formElement, todoElement);
+};
 // <template className="todo-form-template">
 //     <article className="todo-form">
 //         <div className="todo-form-content-wrapper">
@@ -76,4 +80,5 @@ export const TodoFormView = {
     init,
     createTodoForm,
     removeTodoForm,
+    replaceTodoWithForm,
 };

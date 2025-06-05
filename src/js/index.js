@@ -17,7 +17,9 @@ clearBtn.addEventListener('click', () => {
 const logBtn = document.querySelector('.log');
 
 logBtn.addEventListener('click', () => {
-    console.log(localStorage.getItem('todoStorage'))
+    const storage = JSON.parse(localStorage.getItem('todoStorage'));
+
+    storage.forEach((item) => {console.log(item)});
 });
 
 /* temporary for debugging and managing localStorage */

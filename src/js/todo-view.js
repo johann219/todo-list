@@ -14,11 +14,11 @@ const toggleCompletionView = (todoElement, isTodoCompleted) => {
         todoElement.classList.remove(MARKUP_CLASS.TODO_ITEM_COMPLETION);
 };
 
-const renderTodoTitle = (todoTitleElement, todoTitle) => {
+const createTodoTitle = (todoTitleElement, todoTitle) => {
     todoTitleElement.textContent = todoTitle;
 };
 
-const renderTodoDescription = (todoDescriptionElement, todoDescription) => {
+const createTodoDescription = (todoDescriptionElement, todoDescription) => {
     if (todoDescription) {
         todoDescriptionElement.textContent = todoDescription;
     } else {
@@ -26,7 +26,7 @@ const renderTodoDescription = (todoDescriptionElement, todoDescription) => {
     }
 };
 
-const renderTodoDatetime = (todoDatetimeElement, todoDatetime) => {
+const createTodoDatetime = (todoDatetimeElement, todoDatetime) => {
     if (todoDatetime) {
         todoDatetimeElement.textContent = todoDatetime;
     } else {
@@ -34,31 +34,37 @@ const renderTodoDatetime = (todoDatetimeElement, todoDatetime) => {
     }
 };
 
-const renderTodo = (todo) => {
+const createTodoElement = (todo) => {
     const newTodoFragment = todoItemTemplateElement.content.cloneNode(true);
     const newTodoItemElement = newTodoFragment.querySelector(SELECTOR.TODO_ITEM_ELEMENT);
 
     const newTodoTitleElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_TITLE);
-    renderTodoTitle(newTodoTitleElement, todo.title);
+    createTodoTitle(newTodoTitleElement, todo.title);
 
     const newTodoDescriptionElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_DESCRIPTION);
-    renderTodoDescription(newTodoDescriptionElement, todo.description);
+    createTodoDescription(newTodoDescriptionElement, todo.description);
 
     const newTodoDatetimeElement = newTodoItemElement.querySelector(SELECTOR.TODO_ITEM_DATETIME);
-    renderTodoDatetime(newTodoDatetimeElement, todo.datetime);
+    createTodoDatetime(newTodoDatetimeElement, todo.datetime);
 
     toggleCompletionView(newTodoItemElement, todo.isCompleted);
 
     newTodoItemElement.id = todo.id;
 
-    todoListElement.appendChild(newTodoFragment);
+    return newTodoFragment;
 }
+
+const renderNewTodo = (todo) => {
+    const newTodo = createTodoElement(todo);
+
+    todoListElement.appendChild(newTodo);
+};
 
 const renderTodoList = (listToRender) => {
     todoListElement.innerHTML = '';
 
     listToRender.forEach((todo) => {
-        renderTodo(todo);
+        renderNewTodo(todo);
     });
 };
 
@@ -66,32 +72,16 @@ const removeTodo = (todoElement) => {
     todoElement.remove();
 };
 
-const replaceElementByInput = (elementToReplace) => {
-    const inputElement = document.createElement('input');
-    inputElement.setAttribute('type', 'text');
-    inputElement.value = elementToReplace.textContent;
-
-    elementToReplace.parentNode.replaceChild(inputElement, elementToReplace);
-
-    inputElement.focus();
-
-    return inputElement;
-};
-
-const replaceInputByElement = (inputElement, replacerElement, replacingValue = null) => {
-    replacerElement.textContent = replacingValue ? replacingValue : inputElement.value;
-
-    inputElement.parentNode.replaceChild(replacerElement, inputElement);
-
-    return inputElement.value;
+const replaceFormWithTodo = (todoElement, formElement) => {
+    formElement.parentNode.replaceChild(todoElement, formElement);
 };
 
 export const TodoView = {
     init,
-    renderTodo,
+    createTodoElement,
+    renderNewTodo,
     renderTodoList,
     toggleCompletionView,
     removeTodo,
-    replaceElementByInput,
-    replaceInputByElement
+    replaceFormWithTodo,
 };

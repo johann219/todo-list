@@ -12,102 +12,121 @@ const todoFormTemplateElement = document.querySelector(SELECTOR.TODO_FORM_TEMPLA
 
 let listMode = null;
 
-const handleCancellation = (formElement) => {
-    if (listMode === LIST_STATE.CREATING) {
-        TodoFormView.removeTodoForm(formElement);
-    }
-};
-
-const handleConfirmation = (formElement) => {
-    if (listMode === LIST_STATE.CREATING) {
-        const newTodo = TodoCreationService.createTodoFromFormElement(formElement);
-
-        TodoFormView.removeTodoForm(formElement);
-        TodoStorage.addNewTodo(newTodo);
-        TodoView.renderTodo(newTodo);
-    }
-};
-
-const delegateTodoFormButtonClick = (event) => {
-    const clickedElement = event.target;
-    const formElement = clickedElement.closest(SELECTOR.TODO_FORM_ELEMENT);
-
-    const cancelBtn = clickedElement.closest(SELECTOR.TODO_FORM_BUTTON_CANCEL);
-    const confirmBtn = clickedElement.closest(SELECTOR.TODO_FORM_BUTTON_CONFIRM);
-
-    if (confirmBtn) {
-        handleConfirmation(formElement);
-    }
-
-    if (cancelBtn) {
-        handleCancellation(formElement);
-    }
-};
-
-const handleAddBtnClick = () => {
-    if (listMode === LIST_STATE.VIEWING) {
-        const todoForm = TodoFormView.createTodoForm();
-        todoListElement.appendChild(todoForm);
-
-        const todoFormButtons = todoForm.querySelector(SELECTOR.TODO_FORM_BUTTON_WRAPPER);
-
-        todoFormButtons.addEventListener('click', delegateTodoFormButtonClick);
-    }
-    listMode = LIST_STATE.CREATING;
-};
-
 const handleTodoComplete = (todoToCompleteElement) => {
     const updatedTodoObject = TodoStorage.toggleTodoCompletion(todoToCompleteElement.id);
     TodoView.toggleCompletionView(todoToCompleteElement, updatedTodoObject.isCompleted);
-
-    console.log(`Todo with id ${todoToCompleteElement.id} completed`);
 };
 
 const handleTodoDelete = (todoToDeleteElement) => {
     TodoStorage.deleteTodo(todoToDeleteElement.id);
     TodoView.removeTodo(todoToDeleteElement);
-
-    console.log(`Todo with id ${todoToDeleteElement.id} deleted`);
 };
 
-// const handleTodoChildClick = (todoChildElement, propertyToEditType) => {
-//     const parentTodo = getInteractedElementParentTodo(todoChildElement);
-//     const initElementValue = todoChildElement.textContent;
-//
-//     const newInputElement = TodoView.replaceElementByInput(todoChildElement);
-//
-//     const confirmEdit = () => {
-//         const editedContent = TodoView.replaceInputByElement(newInputElement, todoChildElement);
-//         TodoStorage.editTodoProperty(parentTodo.id, propertyToEditType, editedContent);
-//     };
-//
-//     const cancelEdit = () => {
-//         TodoView.replaceInputByElement(newInputElement, todoChildElement, initElementValue);
-//     };
-//
-//     const newEdit = TodoEdit(newInputElement, confirmEdit, cancelEdit);
-//
-//     newEdit.initEdit();
-// };
+const handleTodoEdit = (todoElement) => {
+    listMode = LIST_STATE.EDITING;
 
-const delegateTodoListClickEvent = (event) => {
+    const todoObjectToEdit = TodoStorage.getTodoById(todoElement.id);
+    const todoEditForm = TodoFormView.createTodoForm(todoObjectToEdit);
+
+    TodoFormView.replaceTodoWithForm(todoEditForm, todoElement);
+
+    const todoFormCancelBtn = todoEditForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CANCEL);
+    const todoFormConfirmBtn = todoEditForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CONFIRM);
+
+    const cancelTodoFormEditing = () => {
+        removeButtonListeners();
+
+        TodoView.replaceFormWithTodo(todoElement, todoEditForm);
+
+        listMode = LIST_STATE.VIEWING;
+    };
+
+    const confirmTodoFormEditing = () => {
+        removeButtonListeners();
+
+        const editedTodo = TodoCreationService.createTodoFromFormElement(todoEditForm);
+
+        TodoStorage.editTodo(todoElement.id, editedTodo);
+        const replacingTodoElement = TodoView.createTodoElement(editedTodo);
+
+        TodoView.replaceFormWithTodo(replacingTodoElement, todoEditForm);
+
+        listMode = LIST_STATE.VIEWING;
+    };
+
+    todoFormCancelBtn.addEventListener('click', cancelTodoFormEditing);
+    todoFormConfirmBtn.addEventListener('click', confirmTodoFormEditing);
+
+    function removeButtonListeners () {
+        todoFormCancelBtn.removeEventListener('click', cancelTodoFormEditing);
+        todoFormConfirmBtn.removeEventListener('click', confirmTodoFormEditing);
+    }
+};
+
+const handleTodoItemClick = (event) => {
     const clickedElement = event.target;
     const clickedTodoElement = clickedElement.closest(SELECTOR.TODO_ITEM_ELEMENT);
 
-    const completeBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_COMPLETE);
-    const deleteBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_DELETE);
+    if (clickedTodoElement) {
+        const completeBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_COMPLETE);
+        const deleteBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_DELETE);
 
-    if (completeBtn) {
-        handleTodoComplete(clickedTodoElement);
-        return;
-    }
+        if (completeBtn) {
+            handleTodoComplete(clickedTodoElement);
+            return;
+        }
 
-    if (deleteBtn) {
-        handleTodoDelete(clickedTodoElement);
-        return;
+        if (deleteBtn) {
+            handleTodoDelete(clickedTodoElement);
+            return;
+        }
+
+        if (listMode === LIST_STATE.VIEWING) {
+            handleTodoEdit(clickedTodoElement);
+        }
     }
 };
-        
+
+const handleAddBtnClick = () => {
+    if (listMode === LIST_STATE.VIEWING) {
+        listMode = LIST_STATE.CREATING;
+
+        const todoCreationForm = TodoFormView.createTodoForm();
+        todoListElement.appendChild(todoCreationForm);
+
+        const todoFormCancelBtn = todoCreationForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CANCEL);
+        const todoFormConfirmBtn = todoCreationForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CONFIRM);
+
+        const cancelTodoFormCreating = () => {
+            TodoFormView.removeTodoForm(todoCreationForm);
+
+            removeEventListeners();
+
+            listMode = LIST_STATE.VIEWING;
+        };
+
+        const confirmTodoFormCreating = () => {
+            const newTodo = TodoCreationService.createTodoFromFormElement(todoCreationForm);
+
+            TodoFormView.removeTodoForm(todoCreationForm);
+            TodoStorage.addNewTodo(newTodo);
+            TodoView.renderNewTodo(newTodo);
+
+            removeEventListeners();
+
+            listMode = LIST_STATE.VIEWING;
+        };
+
+        todoFormCancelBtn.addEventListener('click', cancelTodoFormCreating);
+        todoFormConfirmBtn.addEventListener('click', confirmTodoFormCreating);
+
+        function removeEventListeners () {
+            todoFormCancelBtn.removeEventListener('click', cancelTodoFormCreating);
+            todoFormConfirmBtn.removeEventListener('click', confirmTodoFormCreating);
+        }
+    }
+};
+
 const initControl = () => {
     listMode = LIST_STATE.VIEWING
 
@@ -115,7 +134,7 @@ const initControl = () => {
     TodoView.init(todoItemTemplateElement, todoListElement);
     TodoFormView.init(todoFormTemplateElement);
 
-    todoListElement.addEventListener('click', delegateTodoListClickEvent);
+    todoListElement.addEventListener('click', handleTodoItemClick);
 
     addTodoBtnElement.addEventListener('click', handleAddBtnClick);
 
