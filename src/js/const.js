@@ -30,10 +30,10 @@ const MARKUP_CLASS = {
     TODO_ITEM_COMPLETION: 'todo-completed',
 }
 
-const LIST_STATE = {
+const LIST_MODE = {
     VIEWING: 'viewing',
     EDITING: 'editing',
     CREATING: 'creating',
 }
 
-export { SELECTOR, MARKUP_CLASS, LIST_STATE };
+export { SELECTOR, MARKUP_CLASS, LIST_MODE };

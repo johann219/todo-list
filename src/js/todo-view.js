@@ -97,8 +97,8 @@ const createTodoForm = (todo = null) => {
     return newTodoFormElement;
 };
 
-const renderNewTodoForm = (todoFormFragment) => {
-    todoListElement.appendChild(todoFormFragment);
+const renderNewTodoForm = (todoFormElement) => {
+    todoListElement.appendChild(todoFormElement);
 };
 
 const removeTodoForm = (todoFormElement) => {
@@ -110,6 +110,10 @@ const replaceTodoWithForm = (formElement, todoElement) => {
     todoElement.parentNode.replaceChild(formElement, todoElement);
 };
 
+const focusElement = (element) => {
+    element.focus();
+};
+
 export const TodoView = {
     init,
     createTodoElement,
@@ -117,8 +121,10 @@ export const TodoView = {
     renderTodoList,
     toggleCompletionView,
     removeTodo,
-    replaceFormWithTodo,
     createTodoForm,
+    renderNewTodoForm,
     removeTodoForm,
     replaceTodoWithForm,
+    replaceFormWithTodo,
+    focusElement,
 };
