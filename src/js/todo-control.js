@@ -112,32 +112,42 @@ const handleAddBtnClick = () => {
         const todoFormCancelBtn = todoCreationForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CANCEL);
         const todoFormConfirmBtn = todoCreationForm.querySelector(SELECTOR.TODO_FORM_BUTTON_CONFIRM);
 
-        const cancelTodoFormCreating = () => {
-            TodoView.removeTodoForm(todoCreationForm);
+        const cancelTodoFormCreating = (event) => {
+            if (event.type === 'click' || Utils.isEscKey(event)) {
+                TodoView.removeTodoForm(todoCreationForm);
 
-            removeEventListeners();
+                removeEventListeners();
 
-            listMode = LIST_STATE.VIEWING;
+                listMode = LIST_STATE.VIEWING;
+            }
         };
 
-        const confirmTodoFormCreating = () => {
-            const newTodo = TodoCreationService.createTodoFromFormElement(todoCreationForm);
+        const confirmTodoFormCreating = (event) => {
+            if (event.type === 'click' || Utils.isEnterKey(event)) {
+                const newTodo = TodoCreationService.createTodoFromFormElement(todoCreationForm);
 
-            TodoView.removeTodoForm(todoCreationForm);
-            TodoStorage.addNewTodo(newTodo);
-            TodoView.renderNewTodo(newTodo);
+                TodoView.removeTodoForm(todoCreationForm);
+                TodoStorage.addNewTodo(newTodo);
+                TodoView.renderNewTodo(newTodo);
 
-            removeEventListeners();
+                removeEventListeners();
 
-            listMode = LIST_STATE.VIEWING;
+                listMode = LIST_STATE.VIEWING;
+            }
         };
 
         todoFormCancelBtn.addEventListener('click', cancelTodoFormCreating);
         todoFormConfirmBtn.addEventListener('click', confirmTodoFormCreating);
 
+        window.addEventListener('keydown', cancelTodoFormCreating);
+        window.addEventListener('keydown', confirmTodoFormCreating);
+
         function removeEventListeners () {
             todoFormCancelBtn.removeEventListener('click', cancelTodoFormCreating);
             todoFormConfirmBtn.removeEventListener('click', confirmTodoFormCreating);
+
+            window.removeEventListener('keydown', cancelTodoFormCreating);
+            window.removeEventListener('keydown', confirmTodoFormCreating);
         }
     }
 };
