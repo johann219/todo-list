@@ -1,12 +1,10 @@
 import {SELECTOR, MARKUP_CLASS} from './const.js';
 
 let todoItemTemplateElement = null;
-let todoFormTemplateElement = null;
 let todoListElement = null;
 
-const init = (itemTemplateElement, formTemplateElement, listElement) => {
+const init = (itemTemplateElement, listElement) => {
     todoItemTemplateElement = itemTemplateElement;
-    todoFormTemplateElement = formTemplateElement;
     todoListElement = listElement;
 };
 
@@ -74,46 +72,6 @@ const removeTodo = (todoElement) => {
     todoElement.remove();
 };
 
-const replaceFormWithTodo = (todoElement, formElement) => {
-    formElement.parentNode.replaceChild(todoElement, formElement);
-};
-
-const createTodoForm = (todo = null) => {
-    const newTodoFormFragment = todoFormTemplateElement.content.cloneNode(true);
-
-    const newTodoFormElement = newTodoFormFragment.querySelector(SELECTOR.TODO_FORM_ELEMENT);
-
-    if (todo) {
-        const newTodoFormTitleInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_TITLE_INPUT);
-        newTodoFormTitleInput.value = todo.title;
-
-        const newTodoFormDescriptionInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DESCRIPTION_INPUT);
-        newTodoFormDescriptionInput.value = todo.description;
-
-        const newTodoFormDatetimeDisplay = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DATETIME_DISPLAY);
-        newTodoFormDatetimeDisplay.textContent = todo.datetime;
-    }
-
-    return newTodoFormElement;
-};
-
-const renderNewTodoForm = (todoFormElement) => {
-    todoListElement.appendChild(todoFormElement);
-};
-
-const removeTodoForm = (todoFormElement) => {
-    todoFormElement.remove();
-};
-
-const replaceTodoWithForm = (formElement, todoElement) => {
-    formElement.id = todoElement.id;
-    todoElement.parentNode.replaceChild(formElement, todoElement);
-};
-
-const focusElement = (element) => {
-    element.focus();
-};
-
 export const TodoView = {
     init,
     createTodoElement,
@@ -121,10 +79,4 @@ export const TodoView = {
     renderTodoList,
     toggleCompletionView,
     removeTodo,
-    createTodoForm,
-    renderNewTodoForm,
-    removeTodoForm,
-    replaceTodoWithForm,
-    replaceFormWithTodo,
-    focusElement,
 };

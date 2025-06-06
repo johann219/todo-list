@@ -25,7 +25,7 @@ const saveToLocalStorage = () => {
     updateLocalStorage(STORAGE_NAME, JSON.stringify(storage));
 };
 
-const initStorage = () => {
+const init = () => {
     const rehydratedLocalStorage = rehydrateLocalStorage();
 
     if (rehydratedLocalStorage.length > 0) {
@@ -68,7 +68,7 @@ const editTodo = (todoToEditId, newTodo) => {
 };
 
 export const TodoStorage = { 
-    initStorage, 
+    init,
     getStorage,
     addNewTodo, 
     toggleTodoCompletion,

@@ -3,6 +3,7 @@ import { TodoStorage } from './todo-storage.js';
 import { TodoView } from './todo-view.js';
 import { SELECTOR, LIST_MODE } from './const.js';
 import { Utils } from './utils.js';
+import { TodoFormView } from './todo-form-view.js';
 
 const todoListElement = document.querySelector(SELECTOR.TODO_LIST);
 const addTodoBtnElement = document.querySelector(SELECTOR.ADD_TODO_BUTTON);
@@ -45,7 +46,7 @@ const handleTodoForm = (formElement, onCancelCb, onConfirmCb) => {
     const todoFormTitle = formElement.querySelector(SELECTOR.TODO_FORM_TITLE_INPUT);
 
     if (todoFormTitle) {
-        TodoView.focusElement(todoFormTitle);
+        TodoFormView.focusFormElement(todoFormTitle);
     }
 
     todoFormCancelBtn.addEventListener('click', handleCancel);
@@ -66,11 +67,11 @@ const handleAddBtnClick = () => {
 
     listMode = LIST_MODE.CREATING;
 
-    const todoCreationForm = TodoView.createTodoForm();
-    TodoView.renderNewTodoForm(todoCreationForm);
+    const todoCreationForm = TodoFormView.createTodoForm();
+    TodoFormView.renderNewTodoForm(todoCreationForm);
 
     const cancelTodoFormCreating = () => {
-        TodoView.removeTodoForm(todoCreationForm);
+        TodoFormView.removeTodoForm(todoCreationForm);
     };
 
     const confirmTodoFormCreating = () => {
@@ -80,7 +81,7 @@ const handleAddBtnClick = () => {
 
         const newTodoElement = TodoView.createTodoElement(newTodo);
 
-        TodoView.replaceFormWithTodo(newTodoElement, todoCreationForm);
+        TodoFormView.replaceFormWithTodo(newTodoElement, todoCreationForm);
     };
 
     handleTodoForm(todoCreationForm, cancelTodoFormCreating, confirmTodoFormCreating);
@@ -92,12 +93,12 @@ const handleTodoItemClick = (todoElement) => {
     listMode = LIST_MODE.EDITING;
 
     const todoObjectToEdit = TodoStorage.getTodoById(todoElement.id);
-    const todoEditForm = TodoView.createTodoForm(todoObjectToEdit);
+    const todoEditForm = TodoFormView.createTodoForm(todoObjectToEdit);
 
-    TodoView.replaceTodoWithForm(todoEditForm, todoElement);
+    TodoFormView.replaceTodoWithForm(todoEditForm, todoElement);
 
     const cancelTodoFormEditing = () => {
-        TodoView.replaceFormWithTodo(todoElement, todoEditForm);
+        TodoFormView.replaceFormWithTodo(todoElement, todoEditForm);
     };
 
     const confirmTodoFormEditing = () => {
@@ -106,7 +107,7 @@ const handleTodoItemClick = (todoElement) => {
         TodoStorage.editTodo(todoElement.id, editedTodo);
         const replacingTodoElement = TodoView.createTodoElement(editedTodo);
 
-        TodoView.replaceFormWithTodo(replacingTodoElement, todoEditForm);
+        TodoFormView.replaceFormWithTodo(replacingTodoElement, todoEditForm);
     };
 
     handleTodoForm(todoEditForm, cancelTodoFormEditing, confirmTodoFormEditing);
@@ -147,8 +148,9 @@ const handleTodoListClick = (event) => {
 const initControl = () => {
     listMode = LIST_MODE.VIEWING
 
-    TodoStorage.initStorage();
-    TodoView.init(todoItemTemplateElement, todoFormTemplateElement, todoListElement);
+    TodoStorage.init();
+    TodoView.init(todoItemTemplateElement, todoListElement);
+    TodoFormView.init(todoFormTemplateElement, todoListElement);
 
     todoListElement.addEventListener('click', handleTodoListClick);
 
@@ -158,5 +160,5 @@ const initControl = () => {
 };
 
 export const TodoControl = {
-    initControl
+    initControl,
 };
