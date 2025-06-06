@@ -13,16 +13,22 @@ const createTodoForm = (todo = null) => {
 
     const newTodoFormElement = newTodoFormFragment.querySelector(SELECTOR.TODO_FORM_ELEMENT);
 
+    const newTodoFormTitleInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_TITLE_INPUT);
+    const newTodoFormDescriptionInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DESCRIPTION_INPUT);
+    const newTodoFormDatetimeDisplay = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DATETIME_DISPLAY);
+
     if (todo) {
-        const newTodoFormTitleInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_TITLE_INPUT);
         newTodoFormTitleInput.value = todo.title;
-
-        const newTodoFormDescriptionInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DESCRIPTION_INPUT);
         newTodoFormDescriptionInput.value = todo.description;
-
-        const newTodoFormDatetimeDisplay = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DATETIME_DISPLAY);
         newTodoFormDatetimeDisplay.textContent = todo.datetime;
     }
+
+    const descriptionInputAutoResize = () => {
+        newTodoFormDescriptionInput.style.height = '20px';
+        newTodoFormDescriptionInput.style.height = newTodoFormDescriptionInput.scrollHeight + 'px';
+    };
+
+    newTodoFormDescriptionInput.addEventListener('input', descriptionInputAutoResize);
 
     return newTodoFormElement;
 };
