@@ -1,4 +1,5 @@
-import {SELECTOR} from './const.js';
+import { SELECTOR } from './const.js';
+import { Flatpickr } from './flatpickr.js';
 
 let todoFormTemplateElement = null;
 let todoListElement = null;
@@ -15,13 +16,22 @@ const createTodoForm = (todo = null) => {
 
     const newTodoFormTitleInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_TITLE_INPUT);
     const newTodoFormDescriptionInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DESCRIPTION_INPUT);
-    const newTodoFormDatetimeDisplay = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DATETIME_DISPLAY);
+    const newTodoFormDatetimeInput = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DATETIME_INPUT);
+    const newTodoFormDatetimeIcon = newTodoFormElement.querySelector(SELECTOR.TODO_FORM_DATETIME_ICON);
 
     if (todo) {
         newTodoFormTitleInput.value = todo.title;
         newTodoFormDescriptionInput.value = todo.description;
-        newTodoFormDatetimeDisplay.textContent = todo.datetime;
+        newTodoFormDatetimeInput.value = todo.datetime;
     }
+
+    const flatpickrInstance = Flatpickr.createPicker(newTodoFormDatetimeInput);
+
+    const handleDatetimeIconClick = () => {
+        Flatpickr.openPicker(flatpickrInstance);
+    };
+
+    newTodoFormDatetimeIcon.addEventListener('click', handleDatetimeIconClick);
 
     const descriptionInputAutoResize = () => {
         newTodoFormDescriptionInput.style.height = '20px';

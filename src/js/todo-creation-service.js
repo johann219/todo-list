@@ -5,7 +5,7 @@ const createTodoFromFormElement = (formElement) => {
     const title = formElement.querySelector(SELECTOR.TODO_FORM_TITLE_INPUT).value;
     const isCompleted = false;
     const description = formElement.querySelector(SELECTOR.TODO_FORM_DESCRIPTION_INPUT).value;
-    const datetime = formElement.querySelector(SELECTOR.TODO_FORM_DATETIME_DISPLAY).textContent;
+    const datetime = formElement.querySelector(SELECTOR.TODO_FORM_DATETIME_INPUT).value;
 
     return formElement.id ?
         new Todo(title, isCompleted, description, datetime, formElement.id) :
