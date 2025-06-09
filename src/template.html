@@ -16,8 +16,8 @@
                         <p class="todo-datetime"></p>
                     </div>
                     <div class="todo-button-wrapper">
-                        <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo">
-                        <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo">
+                        <img src="./assets/icons/check-circle-outline.svg" class="todo-complete todo-button" alt="Complete Todo" data-action="complete">
+                        <img src="./assets/icons/close-circle-outline.svg" class="todo-delete todo-button" alt="Delete Todo" data-action="delete">
                     </div>
                 </article>
             </template>
@@ -25,7 +25,7 @@
                 <article class="todo-form">
                     <div class="todo-form-content-wrapper">
                         <label class="todo-form-title-label hidden" for="todo-form-title">Title</label>
-                        <input type="text" class="todo-form-title" placeholder="What to do?.." id="todo-form-title">
+                        <textarea class="todo-form-title" placeholder="What to do?.." id="todo-form-title"></textarea>
                         <label class="todo-form-description-label hidden" for="todo-form-description">Description</label>
                         <textarea class="todo-form-description" placeholder="...And how to do it?" id="todo-form-description"></textarea>
                         <div class="todo-form-datetime-wrapper">

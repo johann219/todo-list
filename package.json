@@ -16,7 +16,6 @@
     "build": "webpack --config webpack.prod.js"
   },
   "dependencies": {
-    "date-fns": "^4.1.0",
     "flatpickr": "^4.6.13"
   }
 }
