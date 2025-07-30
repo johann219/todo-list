@@ -59,6 +59,38 @@ main {
   margin: 0 auto;
 }
 
+.add-todo-button {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  background-color: var(--dark-gray);
+  border: 1px solid var(--blue-gray);
+  border-radius: 0.75rem;
+  transition: padding 0.1s ease-in-out, border 0.1s ease-in-out, font-size 0.1s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.add-todo-button:not(:disabled):hover {
+  padding: 0.75 rem;
+  border: 2px solid var(--blue-gray);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.add-todo-button:not(:disabled):active {
+  transform: scale(0.9);
+}
+
+.add-todo-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.add-todo-button-icon {
+  margin: 0 auto;
+  max-width: 3em;
+}
+
 .todo-item,
 .todo-form {
   display: flex;

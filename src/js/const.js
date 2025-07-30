@@ -1,5 +1,5 @@
 const SELECTOR = {
-    ADD_TODO_BUTTON: '.add-todo',
+    ADD_TODO_BUTTON: '.add-todo-button',
     TODO_LIST: '.todo-list',
 
     TODO_ITEM_TEMPLATE: '.todo-item-template',

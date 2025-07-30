@@ -20,12 +20,14 @@ const handleTodoForm = (formElement, onCancelCb, onConfirmCb) => {
     const handleCancel = () => {
         onCancelCb();
         removeListeners();
+        addTodoBtnElement.disabled = false;
         listMode = LIST_MODE.VIEWING;
     };
 
     const handleConfirm = () => {
         onConfirmCb();
         removeListeners();
+        addTodoBtnElement.disabled = false;
         listMode = LIST_MODE.VIEWING;
     };
 
@@ -67,6 +69,8 @@ const handleAddBtnClick = () => {
 
     listMode = LIST_MODE.CREATING;
 
+    addTodoBtnElement.disabled = true;;
+
     const todoCreationForm = TodoFormView.createTodoForm();
     TodoFormView.renderNewTodoForm(todoCreationForm);
 
@@ -91,6 +95,8 @@ const handleTodoItemClick = (todoElement) => {
     if (listMode !== LIST_MODE.VIEWING) return;
 
     listMode = LIST_MODE.EDITING;
+
+    addTodoBtnElement.disabled = true;
 
     const todoObjectToEdit = TodoStorage.getTodoById(todoElement.id);
     const todoEditForm = TodoFormView.createTodoForm(todoObjectToEdit);
@@ -119,6 +125,7 @@ const handleTodoComplete = (todoToCompleteElement) => {
 };
 
 const handleTodoDelete = (todoToDeleteElement) => {
+    console.log('About to delete this item: ', todoToDeleteElement);
     TodoStorage.deleteTodo(todoToDeleteElement.id);
     TodoView.removeTodo(todoToDeleteElement);
 };
