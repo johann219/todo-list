@@ -11,6 +11,10 @@ const todoFormTemplateElement = document.querySelector(SELECTOR.TODO_FORM_TEMPLA
 
 let listMode = null;
 
+const resetListMode = () => {
+    listMode = LIST_MODE.DEFAULT;
+};
+
 const handleTodoForm = (formElement, onCancelCb, onConfirmCb) => {
     const todoFormCancelBtn = formElement.querySelector(SELECTOR.TODO_FORM_BUTTON_CANCEL);
     const todoFormConfirmBtn = formElement.querySelector(SELECTOR.TODO_FORM_BUTTON_CONFIRM);
@@ -20,12 +24,14 @@ const handleTodoForm = (formElement, onCancelCb, onConfirmCb) => {
         onCancelCb();
         removeListeners();
         listMode = LIST_MODE.VIEWING;
+        addTodoBtnElement.removeAttribute('disabled');
     };
 
     const handleConfirm = () => {
         onConfirmCb();
         removeListeners();
         listMode = LIST_MODE.VIEWING;
+        addTodoBtnElement.removeAttribute('disabled');
     };
 
     const handleTodoFormKeydown = (event) => {
@@ -64,6 +70,8 @@ const handleTodoForm = (formElement, onCancelCb, onConfirmCb) => {
 const handleAddBtnClick = () => {
     if (listMode !== LIST_MODE.DEFAULT) return;
 
+    addTodoBtnElement.setAttribute('disabled', '');
+
     listMode = LIST_MODE.CREATING;
 
     const todoCreationForm = TodoFormView.createTodoForm();
@@ -90,6 +98,8 @@ const handleAddBtnClick = () => {
 
 const handleTodoItemClick = (todoElement) => {
     if (listMode !== LIST_MODE.DEFAULT) return;
+
+    addTodoBtnElement.setAttribute('disabled', '');
 
     listMode = LIST_MODE.EDITING;
 
