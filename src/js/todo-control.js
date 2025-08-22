@@ -125,7 +125,7 @@ const handleTodoComplete = (todoToCompleteElement) => {
 };
 
 const handleTodoDelete = (todoToDeleteElement) => {
-    console.log('About to delete this item: ', todoToDeleteElement);
+    if (window.confirm('Are you sure you want to delete this todo?'));
     TodoStorage.deleteTodo(todoToDeleteElement.id);
     TodoView.removeTodo(todoToDeleteElement);
 };
