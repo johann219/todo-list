@@ -56,15 +56,11 @@ const deleteTodo = (todoToDeleteId) => {
 };
 
 const editTodo = (todoToEditId, newTodo) => {
-    const todoToEdit = getTodoById(todoToEditId);
+    const todoToEditIndex = storage.findIndex((todo) => todo.id === todoToEditId);
 
-    todoToEdit.title = newTodo.title;
-    todoToEdit.description = newTodo.description;
-    todoToEdit.datetime = newTodo.datetime;
+    storage[todoToEditIndex] = newTodo;
 
     saveToLocalStorage();
-
-    return todoToEdit
 };
 
 export const TodoStorage = { 

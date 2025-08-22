@@ -1,8 +1,7 @@
 import { TodoCreationService } from './todo-creation-service.js';
 import { TodoStorage } from './todo-storage.js';
 import { TodoView } from './todo-view.js';
-import { SELECTOR, LIST_MODE } from './const.js';
-import { Utils } from './utils.js';
+import { SELECTOR, LIST_MODE, TODO_ACTIONS } from './const.js';
 import { TodoFormView } from './todo-form-view.js';
 
 const todoListElement = document.querySelector(SELECTOR.TODO_LIST);
@@ -20,14 +19,12 @@ const handleTodoForm = (formElement, onCancelCb, onConfirmCb) => {
     const handleCancel = () => {
         onCancelCb();
         removeListeners();
-        addTodoBtnElement.disabled = false;
         listMode = LIST_MODE.VIEWING;
     };
 
     const handleConfirm = () => {
         onConfirmCb();
         removeListeners();
-        addTodoBtnElement.disabled = false;
         listMode = LIST_MODE.VIEWING;
     };
 
@@ -65,17 +62,16 @@ const handleTodoForm = (formElement, onCancelCb, onConfirmCb) => {
 };
 
 const handleAddBtnClick = () => {
-    if (listMode !== LIST_MODE.VIEWING) return;
+    if (listMode !== LIST_MODE.DEFAULT) return;
 
     listMode = LIST_MODE.CREATING;
-
-    addTodoBtnElement.disabled = true;;
 
     const todoCreationForm = TodoFormView.createTodoForm();
     TodoFormView.renderNewTodoForm(todoCreationForm);
 
     const cancelTodoFormCreating = () => {
         TodoFormView.removeTodoForm(todoCreationForm);
+        resetListMode();
     };
 
     const confirmTodoFormCreating = () => {
@@ -86,17 +82,16 @@ const handleAddBtnClick = () => {
         const newTodoElement = TodoView.createTodoElement(newTodo);
 
         TodoFormView.replaceFormWithTodo(newTodoElement, todoCreationForm);
+        resetListMode();
     };
 
-    handleTodoForm(todoCreationForm, cancelTodoFormCreating, confirmTodoFormCreating);
+    TodoFormView.handleTodoForm(todoCreationForm, cancelTodoFormCreating, confirmTodoFormCreating);
 };
 
 const handleTodoItemClick = (todoElement) => {
-    if (listMode !== LIST_MODE.VIEWING) return;
+    if (listMode !== LIST_MODE.DEFAULT) return;
 
     listMode = LIST_MODE.EDITING;
-
-    addTodoBtnElement.disabled = true;
 
     const todoObjectToEdit = TodoStorage.getTodoById(todoElement.id);
     const todoEditForm = TodoFormView.createTodoForm(todoObjectToEdit);
@@ -105,6 +100,7 @@ const handleTodoItemClick = (todoElement) => {
 
     const cancelTodoFormEditing = () => {
         TodoFormView.replaceFormWithTodo(todoElement, todoEditForm);
+        resetListMode();
     };
 
     const confirmTodoFormEditing = () => {
@@ -114,10 +110,12 @@ const handleTodoItemClick = (todoElement) => {
         const replacingTodoElement = TodoView.createTodoElement(editedTodo);
 
         TodoFormView.replaceFormWithTodo(replacingTodoElement, todoEditForm);
+        resetListMode();
     };
 
-    handleTodoForm(todoEditForm, cancelTodoFormEditing, confirmTodoFormEditing);
+    TodoFormView.handleTodoForm(todoEditForm, cancelTodoFormEditing, confirmTodoFormEditing);
 };
+
 
 const handleTodoComplete = (todoToCompleteElement) => {
     const updatedTodoObject = TodoStorage.toggleTodoCompletion(todoToCompleteElement.id);
@@ -131,29 +129,31 @@ const handleTodoDelete = (todoToDeleteElement) => {
 };
 
 const handleTodoListClick = (event) => {
-    const clickedElement = event.target;
-    const clickedTodoElement = clickedElement.closest(SELECTOR.TODO_ITEM_ELEMENT);
+    const clickedTodoElement = event.target.closest(SELECTOR.TODO_ITEM_ELEMENT);
+    const clickedActionElement = event.target.closest(SELECTOR.TODO_ITEM_DATA_ACTION_ATTRIBUTE);
+
+    if (clickedActionElement) {
+        const action = clickedActionElement.dataset.action;
+
+        switch (action) {
+            case TODO_ACTIONS.COMPLETE:
+                handleTodoComplete(clickedTodoElement);
+                break;
+            case TODO_ACTIONS.DELETE:
+                handleTodoDelete(clickedTodoElement);
+                break;
+        }
+
+        return;
+    }
 
     if (clickedTodoElement) {
-        const completeBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_COMPLETE);
-        const deleteBtn = clickedElement.closest(SELECTOR.TODO_ITEM_BUTTON_DELETE);
-
-        if (completeBtn) {
-            handleTodoComplete(clickedTodoElement);
-            return;
-        }
-
-        if (deleteBtn) {
-            handleTodoDelete(clickedTodoElement);
-            return;
-        }
-
         handleTodoItemClick(clickedTodoElement);
     }
 };
 
 const initControl = () => {
-    listMode = LIST_MODE.VIEWING
+    listMode = LIST_MODE.DEFAULT
 
     TodoStorage.init();
     TodoView.init(todoItemTemplateElement, todoListElement);

@@ -11,6 +11,7 @@ const SELECTOR = {
     TODO_ITEM_BUTTON_WRAPPER: '.todo-button-wrapper',
     TODO_ITEM_BUTTON_COMPLETE: '.todo-complete',
     TODO_ITEM_BUTTON_DELETE: '.todo-delete',
+    TODO_ITEM_DATA_ACTION_ATTRIBUTE: '[data-action]',
 
     TODO_FORM_TEMPLATE: '.todo-form-template',
     TODO_FORM_ELEMENT: '.todo-form',
@@ -30,9 +31,14 @@ const MARKUP_CLASS = {
 }
 
 const LIST_MODE = {
-    VIEWING: 'viewing',
-    EDITING: 'editing',
-    CREATING: 'creating',
+    DEFAULT: 'default',
+    EDIT: 'edit',
+    ADD: 'add',
 }
 
-export { SELECTOR, MARKUP_CLASS, LIST_MODE };
+const TODO_ACTIONS = {
+    COMPLETE: 'complete',
+    DELETE: 'delete',
+}
+
+export { SELECTOR, MARKUP_CLASS, LIST_MODE, TODO_ACTIONS };
